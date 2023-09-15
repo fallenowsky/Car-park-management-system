@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Create car</title>
+</head>
+<body>
+<h2>Add a new car:</h2>
+
+<form th:action="@{/car/create}" method="post">
+  <input type="hidden" name="garageId" th:value="${garageId}">
+  <div>
+    <label for="brand">Brand:</label>
+    <input type="text" id="brand" name="brand" placeholder="car_brand" required/>
+  </div>
+  <br>
+  <div>
+    <label for="width">Car width:</label>
+    <input type="number" id="width" name="width" value="2.2" min="1.5" max="10" step="0.1" required/>
+  </div>
+  <br>
+  <div>
+    <label for="fuel">Fuel type:</label>
+    <select id="fuel" name="fuelId" required>
+      <option disabled selected>Select_fuel</option>
+      <option th:each="fuel: ${fuels}" th:text="${fuel.name}" th:value="${fuel.id}"></option>
+    </select> <br> <br>
+  </div>
+  <br>
+  <div>
+    <label for="price">Price:</label>
+    <input type="number" id="price" name="price" min="1" step="1000" value="10000" required>
+  </div> <br> <br>
+  <button type="reset">RESET</button>
+  <button type="submit">ADD</button>
+</form>
+</body>
+</html>

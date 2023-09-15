@@ -15,13 +15,23 @@
 </style>
 <script>
     document.addEventListener("DOMContentLoaded", () => {
-        document.querySelectorAll(".add-btn")
+        watchBtns();
+    })
+
+    const watchBtns = () => {
+        document.querySelectorAll(".add-garage-btn")
             .forEach(btn => {
                 btn.addEventListener("click", () => {
-                    document.location.replace("/garages/addForm")
+                    document.location.replace("/garage/addForm")
                 })
             })
-    })
+        document.querySelectorAll(".add-car-btn")
+            .forEach(btn => {
+                btn.addEventListener("click", ev => {
+                    document.location.replace(`/car/addForm?garageId=${ev.target.dataset.id}`);
+                })
+            })
+    }
 </script>
 <body>
 <h3>List of garages:</h3>
@@ -30,29 +40,36 @@
     <thead>
     <tr>
         <th>No.</th>
-        <th>Capacity</th>
-        <th>Lpg allowed</th>
-        <th>Place width</th>
-        <th>Location address[name, city]</th>
-        <th>Available places[free/all]</th>
+        <th>Capacity:</th>
+        <th>Lpg allowed:</th>
+        <th>Place width:</th>
+        <th>Location address[name, city]:</th>
+        <th>Most fuel:</th>
+        <th>Most expensive car[brand,price]:</th>
+        <th>Average car price:</th>
+        <th>Garage fill[%]:</th>
     </tr>
     </thead>
     <tbody>
     <tr th:each="garage, counter : ${garages}">
-        <td class="data" th:text="${counter.count}"></td>
+        <td class="data" th:text="${counter.count + '.'}"></td>
         <td class="data" th:text="${garage.capacity}"></td>
         <td class="data" th:text="${garage.isLpgAllowed? 'Yes' : 'No'}"></td>
         <td class="data" th:text="${garage.placeWidth}"></td>
-        <td class="data" th:text="${garage.address.name + ', ' + garage.address.city}"></td>
-        <td class="data" th:text="${garage.cars.size() == 0 ?
-         garage.capacity + '/' + garage.capacity : garage.capacity - garage.cars.size() + '/' + garage.capacity}"></td>
-        <td class="data" >
-            <button class="add-car">ADD CAR</button>
+        <td class="data" th:text="${garage.garageName + ', ' + garage.garageCity}"></td>
+        <td class="data" th:text="${'eee'}"></td>
+        <td class="data" th:text="${mostExpensive == null ? 'null' : mostExpensive.brand + ' ' + mostExpensive.price}"></td>
+        <td class="data" th:text="${averagePrice}"></td>
+        <td class="data" th:text="${garage.carsAmount == 0 ?
+         0 + '%' : (garage.carsAmount / garage.capacity) * 100 + '%'}"></td>
+        <td class="data">
+            <button class="add-car-btn" th:data-id="${garage.id}">ADD CAR</button>
         </td>
     </tr>
     </tbody>
-</table><br><br>
+</table>
+<br><br>
 
-<button class="add-btn">ADD GARAGE</button>
+<button class="add-garage-btn">ADD GARAGE</button>
 </body>
 </html>

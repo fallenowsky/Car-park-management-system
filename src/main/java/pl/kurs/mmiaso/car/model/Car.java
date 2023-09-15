@@ -13,6 +13,7 @@ import java.math.BigDecimal;
 @Getter
 @Setter
 @NoArgsConstructor
+@Table(name = "cars")
 
 public class Car {
 

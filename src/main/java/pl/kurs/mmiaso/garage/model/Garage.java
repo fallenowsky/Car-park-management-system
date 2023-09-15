@@ -13,6 +13,7 @@ import java.util.Set;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Table(name="garages")
 
 public class Garage {
 
@@ -24,7 +25,7 @@ public class Garage {
     private boolean isLpgAllowed;
     private double placeWidth;
 
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
     private Address address;
 
     @OneToMany(mappedBy = "garage")

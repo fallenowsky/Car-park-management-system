@@ -14,6 +14,7 @@ import pl.kurs.mmiaso.garage.model.Garage;
 @ToString
 
 public class GarageDto {
+    private Long id;
     @Min(1)
     @Max(Integer.MAX_VALUE)
     private int capacity;
@@ -31,6 +32,7 @@ public class GarageDto {
     private String garageCity;
     @NotNull
     private String garageCountry;
+    private int carsAmount;
 
     public static Garage dtoToEntity(GarageDto garageDto) {
         return Garage.builder()
@@ -44,6 +46,22 @@ public class GarageDto {
                         .city(garageDto.getGarageCity())
                         .country(garageDto.getGarageCountry())
                         .build())
+                .build();
+    }
+
+    public static GarageDto entityToDto(Garage garage) {
+        return GarageDto.
+                builder()
+                .id(garage.getId())
+                .capacity(garage.getCapacity())
+                .isLpgAllowed(garage.isLpgAllowed())
+                .placeWidth(garage.getPlaceWidth())
+                .garageName(garage.getAddress().getName())
+                .garageStreet(garage.getAddress().getStreet())
+                .garageZip(garage.getAddress().getZipCode())
+                .garageCity(garage.getAddress().getCity())
+                .garageCountry(garage.getAddress().getCountry())
+                .carsAmount(garage.getCars().size())
                 .build();
     }
 }
