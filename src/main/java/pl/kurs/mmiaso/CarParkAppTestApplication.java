@@ -1,4 +1,4 @@
-package pl.kurs.mmiaso.carparkapptest;
+package pl.kurs.mmiaso;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
