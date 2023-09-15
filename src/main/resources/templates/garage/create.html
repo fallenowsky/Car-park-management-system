@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Create garage</title>
+</head>
+<body>
+<h2>Add a new garage:</h2>
+
+<form th:action="@{/garages/create}" method="post">
+    <div>
+        <label for="capacity">Garage capacity(available places):</label>
+        <input type="number" id="capacity" name="capacity" placeholder="capacity" min="1" step="1" max="1000" value="5" required/>
+    </div>
+    <br>
+    <div>
+        <label for="lpg">Is lpg allowed?:</label>
+        <input type="checkbox" id="lpg" name="isLpgAllowed" value="true" />
+        <input type="hidden" name="isLpgAllowed" value="false">
+    </div>
+    <br>
+    <div>
+        <label for="placeWidth">Single place width:</label>
+        <input type="number" id="placeWidth" name="placeWidth" min="2.5" step="0.1" max="5" value="2.8" required>
+    </div>
+    <br>
+    <div>
+        <p>Garage address: </p>
+        <label for="gName"></label>
+        <input type="text" id="gName" name="garageName" placeholder="garage_name" required>
+        <label for="street"></label>
+        <input type="text" id="street" name="garageStreet" placeholder="garage_street" required>
+        <label for="zipCode"></label>
+        <input type="text" id="zipCode" name="garageZip" placeholder="garage_zip_code" required>
+        <label for="city"></label>
+        <input type="text" id="city" name="garageCity" placeholder="garage_city" required>
+        <label for="country"></label>
+        <input type="text" id="country" name="garageCountry" placeholder="garage_country" required>
+    </div> <br> <br>
+    <button type="reset">RESET</button>
+    <button type="submit">ADD</button>
+</form>
+</body>
+</html>

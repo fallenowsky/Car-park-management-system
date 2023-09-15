@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Garages</title>
+</head>
+<style>
+    .data {
+        width: 150px;
+        text-align: center;
+    }
+</style>
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        document.querySelectorAll(".add-btn")
+            .forEach(btn => {
+                btn.addEventListener("click", () => {
+                    document.location.replace("/garages/addForm")
+                })
+            })
+    })
+</script>
+<body>
+<h3>List of garages:</h3>
+
+<table>
+    <thead>
+    <tr>
+        <th>No.</th>
+        <th>Capacity</th>
+        <th>Lpg allowed</th>
+        <th>Place width</th>
+        <th>Location address[name, city]</th>
+        <th>Available places[free/all]</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="garage, counter : ${garages}">
+        <td class="data" th:text="${counter.count}"></td>
+        <td class="data" th:text="${garage.capacity}"></td>
+        <td class="data" th:text="${garage.isLpgAllowed? 'Yes' : 'No'}"></td>
+        <td class="data" th:text="${garage.placeWidth}"></td>
+        <td class="data" th:text="${garage.address.name + ', ' + garage.address.city}"></td>
+        <td class="data" th:text="${garage.cars.size() == 0 ?
+         garage.capacity + '/' + garage.capacity : garage.capacity - garage.cars.size() + '/' + garage.capacity}"></td>
+        <td class="data" >
+            <button class="add-car">ADD CAR</button>
+        </td>
+    </tr>
+    </tbody>
+</table><br><br>
+
+<button class="add-btn">ADD GARAGE</button>
+</body>
+</html>

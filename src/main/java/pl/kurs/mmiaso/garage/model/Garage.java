@@ -1,18 +1,18 @@
 package pl.kurs.mmiaso.garage.model;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import pl.kurs.mmiaso.address.model.Address;
 import pl.kurs.mmiaso.car.model.Car;
 
 import java.util.Set;
 
 @Entity
+@Builder
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
 
 public class Garage {
 
@@ -20,13 +20,15 @@ public class Garage {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private int places;
+    private int capacity;
     private boolean isLpgAllowed;
     private double placeWidth;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     private Address address;
 
     @OneToMany(mappedBy = "garage")
     private Set<Car> cars;
+
+
 }

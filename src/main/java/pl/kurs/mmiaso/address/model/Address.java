@@ -1,17 +1,17 @@
 package pl.kurs.mmiaso.address.model;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import pl.kurs.mmiaso.garage.model.Garage;
 
 import java.util.Set;
 
 @Entity
+@Builder
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
 
 public class Address {
 
@@ -20,7 +20,6 @@ public class Address {
     private Long id;
 
     private String name;
-    private String surname;
     private String street;
     private String zipCode;
     private String city;
