@@ -1,18 +1,18 @@
 package pl.kurs.mmiaso.car.model;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import pl.kurs.mmiaso.fuel.model.Fuel;
 import pl.kurs.mmiaso.garage.model.Garage;
 
 import java.math.BigDecimal;
 
 @Entity
+@Builder
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "cars")
 
 public class Car {
@@ -30,4 +30,5 @@ public class Car {
 
     @ManyToOne
     private Garage garage;
+
 }

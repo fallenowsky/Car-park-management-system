@@ -1,5 +1,6 @@
 package pl.kurs.mmiaso.car;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,9 +25,10 @@ public class CarController {
 
     @PostMapping("/create")
     public String create(
-            CarDto carDto,
+            @Valid CarDto carDto,
             @RequestParam("garageId") long garageId,
             @RequestParam("fuelId") long fuelId) {
+
         carService.save(carDto, garageId, fuelId);
         return "redirect:/cars";
     }
