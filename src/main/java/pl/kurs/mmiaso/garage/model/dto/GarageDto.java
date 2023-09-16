@@ -1,17 +1,20 @@
 package pl.kurs.mmiaso.garage.model.dto;
 
-import jakarta.validation.constraints.*;
+import jakarta.validation.constraints.DecimalMax;
+import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
-import pl.kurs.mmiaso.address.model.Address;
+import lombok.Data;
+import pl.kurs.mmiaso.address.model.dto.AddressDto;
+import pl.kurs.mmiaso.car.model.dto.CarDto;
+import pl.kurs.mmiaso.fuel.model.dto.FuelDto;
 import pl.kurs.mmiaso.garage.model.Garage;
 
+import java.math.BigDecimal;
+
 @Builder
-@Getter
-@Setter
-@ToString
+@Data
 
 public class GarageDto {
     private Long id;
@@ -22,46 +25,34 @@ public class GarageDto {
     @DecimalMin("2.5")
     @DecimalMax("10.0")
     private double placeWidth;
-    @NotNull
-    private String garageName;
-    @NotNull
-    private String garageStreet;
-    @NotNull
-    private String garageZip;
-    @NotNull
-    private String garageCity;
-    @NotNull
-    private String garageCountry;
     private int carsAmount;
+    private AddressDto addressDto;
+    private FuelDto mostUsedFuel;
+    private CarDto mostExpensiveCar;
+    private BigDecimal avgCarAmount;
+    private double fillFactor;
 
-    public static Garage dtoToEntity(GarageDto garageDto) {
+
+    public static Garage dtoToFlatEntity(GarageDto garageDto) {
         return Garage.builder()
                 .capacity(garageDto.getCapacity())
                 .isLpgAllowed(garageDto.isLpgAllowed())
                 .placeWidth(garageDto.getPlaceWidth())
-                .address(Address.builder()
-                        .name(garageDto.getGarageName())
-                        .street(garageDto.getGarageStreet())
-                        .zipCode(garageDto.getGarageZip())
-                        .city(garageDto.getGarageCity())
-                        .country(garageDto.getGarageCountry())
-                        .build())
                 .build();
     }
 
-    public static GarageDto entityToDto(Garage garage) {
+    public static GarageDto entityToDtoWithAddressAndCars(Garage garage) {
+        AddressDto addressDto = AddressDto.entityToDto(garage.getAddress());
         return GarageDto.
                 builder()
                 .id(garage.getId())
                 .capacity(garage.getCapacity())
                 .isLpgAllowed(garage.isLpgAllowed())
                 .placeWidth(garage.getPlaceWidth())
-                .garageName(garage.getAddress().getName())
-                .garageStreet(garage.getAddress().getStreet())
-                .garageZip(garage.getAddress().getZipCode())
-                .garageCity(garage.getAddress().getCity())
-                .garageCountry(garage.getAddress().getCountry())
+                .addressDto(addressDto)
                 .carsAmount(garage.getCars().size())
                 .build();
     }
+
+
 }

@@ -19,4 +19,10 @@ public interface GarageRepository extends JpaRepository<Garage, Long> {
             "left join fetch G.cars " +
             "where G.id = :id")
     Optional<Garage> findByIdWithCarsJoin(@Param("id") long garageId);
+
+    @Query("select distinct G from Garage as G " +
+            "left join fetch G.address " +
+            "left join fetch G.cars " +
+            "where G.id = :id")
+    Optional<Garage> findByIdWithAddressAndCarsJoin(@Param("id") long garageId);
 }

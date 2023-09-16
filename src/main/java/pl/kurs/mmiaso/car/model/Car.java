@@ -25,10 +25,10 @@ public class Car {
     private double width;
     private BigDecimal price;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Fuel fuel;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Garage garage;
 
 }

@@ -1,4 +1,4 @@
-package pl.kurs.mmiaso.car.exception;
+package pl.kurs.mmiaso.car.exceptions;
 
 public class GarageNotHandleLpgException extends RuntimeException {
     public GarageNotHandleLpgException() {

@@ -10,7 +10,7 @@ import pl.kurs.mmiaso.fuel.FuelService;
 
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/car")
+@RequestMapping("/cars")
 
 public class CarController {
     private final CarService carService;
@@ -30,6 +30,6 @@ public class CarController {
             @RequestParam("fuelId") long fuelId) {
 
         carService.save(carDto, garageId, fuelId);
-        return "redirect:/cars";
+        return "redirect:/garages";
     }
 }

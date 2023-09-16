@@ -3,9 +3,9 @@ package pl.kurs.mmiaso.car;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import pl.kurs.mmiaso.car.exception.GarageIsFullWithCarsException;
-import pl.kurs.mmiaso.car.exception.GarageNotHandleLpgException;
-import pl.kurs.mmiaso.car.exception.GaragePlaceIsTooNarrowException;
+import pl.kurs.mmiaso.car.exceptions.GarageIsFullWithCarsException;
+import pl.kurs.mmiaso.car.exceptions.GarageNotHandleLpgException;
+import pl.kurs.mmiaso.car.exceptions.GaragePlaceIsTooNarrowException;
 import pl.kurs.mmiaso.car.model.Car;
 import pl.kurs.mmiaso.car.model.dto.CarDto;
 import pl.kurs.mmiaso.fuel.FuelRepository;
@@ -13,8 +13,9 @@ import pl.kurs.mmiaso.fuel.model.Fuel;
 import pl.kurs.mmiaso.garage.GarageRepository;
 import pl.kurs.mmiaso.garage.model.Garage;
 
-import java.math.BigDecimal;
 import java.text.MessageFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -24,13 +25,6 @@ public class CarService {
     private final GarageRepository garageRepository;
     private final FuelRepository fuelRepository;
 
-    public Car findMostExpensive() {
-        return carRepository.findMostExpensive();
-    }
-
-    public BigDecimal findCarsAveragePrice() {
-        return carRepository.findCarsAveragePrice();
-    }
 
     public void save(CarDto carDto, long garageId, long fuelId) {
         Car car = CarDto.dtoToEntity(carDto);
@@ -65,5 +59,15 @@ public class CarService {
         if (car.getWidth() > garage.getPlaceWidth()) {
             throw new GaragePlaceIsTooNarrowException("Garage place is too narrow for your car!");
         }
+    }
+
+    public List<CarDto> findCarsByGarageId(long garageId) {
+        List<Car> cars = carRepository.findAllByGarageIdWithFuelJoin(garageId);
+        List<CarDto> carDto = new ArrayList<>();
+
+        for (Car car : cars) {
+            carDto.add(CarDto.entityToDtoWithFuel(car));
+        }
+        return carDto;
     }
 }
