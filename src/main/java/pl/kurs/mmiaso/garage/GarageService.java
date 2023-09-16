@@ -8,6 +8,8 @@ import pl.kurs.mmiaso.address.model.dto.AddressDto;
 import pl.kurs.mmiaso.car.CarRepository;
 import pl.kurs.mmiaso.car.model.Car;
 import pl.kurs.mmiaso.car.model.dto.CarDto;
+import pl.kurs.mmiaso.fuel.model.Fuel;
+import pl.kurs.mmiaso.fuel.model.dto.FuelDto;
 import pl.kurs.mmiaso.garage.model.Garage;
 import pl.kurs.mmiaso.garage.model.dto.GarageDto;
 
@@ -29,9 +31,12 @@ public class GarageService {
                 .toList();
 
         for (GarageDto garage : garageDtos) {
+            Fuel fuel = carRepository.findMostCommonFuelByGarageId(garage.getId())
+                            .orElse(new Fuel());
+            garage.setMostUsedFuel(FuelDto.entityToDto(fuel));
             garage.setMostExpensiveCar(findMostExpensiveCar(garage));
             garage.setAvgCarAmount(carRepository.findGarageCarsAveragePrice(garage.getId()));
-            garage.setFillFactor(((double)garage.getCarsAmount() / garage.getCapacity()) * 100);
+            garage.setFillFactor(((double) garage.getCarsAmount() / garage.getCapacity()) * 100);
         }
 
         return garageDtos;
@@ -39,8 +44,8 @@ public class GarageService {
 
     private CarDto findMostExpensiveCar(GarageDto garageDto) {
         Car car = carRepository.findMostExpensive(garageDto.getId())
-                        .orElse(new Car());
-        return car.getFuel() == null? CarDto.entityToFlatDto(car) : CarDto.entityToDtoWithFuel(car);
+                .orElse(new Car());
+        return car.getFuel() == null ? CarDto.entityToFlatDto(car) : CarDto.entityToDtoWithFuel(car);
     }
 
     public void save(GarageDto garageDto, AddressDto addressDto) {

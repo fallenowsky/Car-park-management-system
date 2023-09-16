@@ -55,19 +55,19 @@
         <th>Garage fill[%]:</th>
     </tr>
     </thead>
-    <tbody>
+    <tbody> //${#numbers.formatDecimal(yourNumber, 2)}
     <tr th:each="garage, counter : ${garages}">
         <td class="data" th:text="${counter.count + '.'}"></td>
         <td class="data" th:text="${garage.capacity}"></td>
         <td class="data" th:text="${garage.isLpgAllowed? 'Yes' : 'No'}"></td>
         <td class="data" th:text="${garage.placeWidth}"></td>
         <td class="data" th:text="${garage.addressDto.name + ', ' + garage.addressDto.city}"></td>
-        <td class="data" th:text="${'eee'}"></td>
+        <td class="data" th:text="${garage.mostUsedFuel.name == null ? 'Empty garage' : garage.mostUsedFuel.name}"></td>
         <td class="data"
             th:text="${garage.mostExpensiveCar.brand == null? 'Empty garage' :
             garage.mostExpensiveCar.brand + ' ' + garage.mostExpensiveCar.price}"></td>
-        <td class="data" th:text="${garage.avgCarAmount}"></td>
-        <td class="data" th:text="${garage.fillFactor}"></td>
+        <td class="data" th:text="${#numbers.formatDecimal(garage.avgCarAmount,2,2)}"></td>
+        <td class="data" th:text="${#numbers.formatDecimal(garage.fillFactor,1,1)}"></td>
         <td>
             <button class="add-car-btn" th:data-id="${garage.id}">ADD CAR</button>
         </td>
