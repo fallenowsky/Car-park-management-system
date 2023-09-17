@@ -15,17 +15,17 @@ public interface CarRepository extends JpaRepository<Car, Long> {
     @Query("select C from Car as C " +
             "where C.garage.id = :id " +
             "order by C.price desc limit 1")
-    Optional<Car> findMostExpensive(@Param("id") long garageId);
+    Optional<Car> findMostExpensiveCarByGarageId(@Param("id") Long garageId);
 
     @Query("select avg(C.price) from Car as C " +
             "where C.garage.id = :id")
-    BigDecimal findGarageCarsAveragePrice(@Param("id") long garageId);
+    BigDecimal findGarageCarsAveragePriceByGarageId(@Param("id") Long garageId);
 
     @Query("select distinct C from Car as C " +
 //            "left join fetch C.garage as G " +
             "left join fetch C.fuel " +
             "where C.garage.id = :id")
-    List<Car> findAllByGarageIdWithFuelJoin(@Param("id") long garageId);
+    List<Car> findAllByGarageIdWithFuelJoin(@Param("id") Long garageId);
 
     @Query("select F, count(F.id) as fuelCount " +
             "from Car as C " +
@@ -33,5 +33,10 @@ public interface CarRepository extends JpaRepository<Car, Long> {
             "where C.garage.id = :id " +
             "group by F " +
             "order by fuelCount desc limit 1")
-    Optional<Fuel> findMostCommonFuelByGarageId(@Param("id") long garageId);
+    Optional<Fuel> findMostCommonFuelByGarageId(@Param("id") Long garageId);
+
+    @Query("select count(C.id) from Car as C " +
+            "where C.garage.id = :id")
+    int findCarsAmountByGarageId(@Param("id") Long id);
+
 }

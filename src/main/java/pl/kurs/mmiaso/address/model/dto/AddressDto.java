@@ -1,28 +1,22 @@
 package pl.kurs.mmiaso.address.model.dto;
 
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
-import lombok.Getter;
+import lombok.Data;
 import pl.kurs.mmiaso.address.model.Address;
 
 @Builder
-@Getter
+@Data
 
 public class AddressDto {
-    @NotNull
     @NotBlank
     private String name;
-    @NotNull
     @NotBlank
     private String street;
-    @NotNull
     @NotBlank
     private String zipCode;
-    @NotNull
     @NotBlank
     private String city;
-    @NotNull
     @NotBlank
     private String country;
 
@@ -45,6 +39,4 @@ public class AddressDto {
                 .country(addressDto.getCountry())
                 .build();
     }
-
-
 }

@@ -29,7 +29,7 @@ public class CarService {
     public void save(CarDto carDto, long garageId, long fuelId) {
         Car car = CarDto.dtoToEntity(carDto);
 
-        Garage garage = garageRepository.findByIdWithCarsJoin(garageId)
+        Garage garage = garageRepository.findById(garageId)
                 .orElseThrow(() -> new EntityNotFoundException(
                         MessageFormat.format("Garage with id={0} not found", garageId)));
 
@@ -38,15 +38,15 @@ public class CarService {
                         MessageFormat.format("Fuel with id={0} not found", fuelId)));
 
         car.setFuel(fuel);
-        validateGarageConstrains(garage, car);
+        validateCarGarageConstrains(garage, car);
         car.setGarage(garage);
 
         carRepository.save(car);
     }
 
-    private void validateGarageConstrains(Garage garage, Car car) {
+    private void validateCarGarageConstrains(Garage garage, Car car) {
         int maxPlaces = garage.getCapacity();
-        int takenPlaces = garage.getCars().size();
+        int takenPlaces = carRepository.findCarsAmountByGarageId(garage.getId());
 
         if (takenPlaces == maxPlaces + 1) {
             throw new GarageIsFullWithCarsException("This garage is full!");

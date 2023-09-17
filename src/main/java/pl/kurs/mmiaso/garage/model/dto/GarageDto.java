@@ -1,9 +1,6 @@
 package pl.kurs.mmiaso.garage.model.dto;
 
-import jakarta.validation.constraints.DecimalMax;
-import jakarta.validation.constraints.DecimalMin;
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.*;
 import lombok.Builder;
 import lombok.Data;
 import pl.kurs.mmiaso.address.model.dto.AddressDto;
@@ -21,11 +18,11 @@ public class GarageDto {
     @Min(1)
     @Max(Integer.MAX_VALUE)
     private int capacity;
+    @NotNull
     private boolean isLpgAllowed;
     @DecimalMin("2.5")
     @DecimalMax("10.0")
     private double placeWidth;
-    private int carsAmount;
     private AddressDto addressDto;
     private FuelDto mostUsedFuel;
     private CarDto mostExpensiveCar;
@@ -41,7 +38,7 @@ public class GarageDto {
                 .build();
     }
 
-    public static GarageDto entityToDtoWithAddressAndCars(Garage garage) {
+    public static GarageDto entityToDtoWithAddress(Garage garage) {
         AddressDto addressDto = AddressDto.entityToDto(garage.getAddress());
         return GarageDto.
                 builder()
@@ -50,9 +47,6 @@ public class GarageDto {
                 .isLpgAllowed(garage.isLpgAllowed())
                 .placeWidth(garage.getPlaceWidth())
                 .addressDto(addressDto)
-                .carsAmount(garage.getCars().size())
                 .build();
     }
-
-
 }

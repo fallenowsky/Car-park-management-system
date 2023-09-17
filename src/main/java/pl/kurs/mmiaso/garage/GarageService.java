@@ -1,6 +1,5 @@
 package pl.kurs.mmiaso.garage;
 
-import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import pl.kurs.mmiaso.address.model.Address;
@@ -13,7 +12,6 @@ import pl.kurs.mmiaso.fuel.model.dto.FuelDto;
 import pl.kurs.mmiaso.garage.model.Garage;
 import pl.kurs.mmiaso.garage.model.dto.GarageDto;
 
-import java.text.MessageFormat;
 import java.util.List;
 import java.util.Objects;
 
@@ -24,26 +22,33 @@ public class GarageService {
     private final GarageRepository garageRepository;
     private final CarRepository carRepository;
 
+    /*generuje wieksza ilosc zapytan sql, ale znacznie oszczedzam pamiec i czas odpowiedzi
+     * pobieram tylko to co mi jest potrzebne, bez powiazanych encji
+     * dane potrzebne do obliczen moze mi zwrocic baza, nie potrzebuje miec tego w pamieci aplikacji(całych obiektów)
+     * gdyby bylo milion garazy i kazdy ma 1000 miejsc to bez sensu to wszystko tu ladowac  */
+
+
     public List<GarageDto> findAll() {
-        List<GarageDto> garageDtos = garageRepository.findALlWithAddressAndCarsJoin().stream()
+        List<GarageDto> garageDtos = garageRepository.findALlWithAddressJoin().stream()
                 .filter(Objects::nonNull)
-                .map(GarageDto::entityToDtoWithAddressAndCars)
+                .map(GarageDto::entityToDtoWithAddress)
                 .toList();
 
-        for (GarageDto garage : garageDtos) {
-            Fuel fuel = carRepository.findMostCommonFuelByGarageId(garage.getId())
+        for (GarageDto garageDto : garageDtos) {
+            Fuel fuel = carRepository.findMostCommonFuelByGarageId(garageDto.getId())
                             .orElse(new Fuel());
-            garage.setMostUsedFuel(FuelDto.entityToDto(fuel));
-            garage.setMostExpensiveCar(findMostExpensiveCar(garage));
-            garage.setAvgCarAmount(carRepository.findGarageCarsAveragePrice(garage.getId()));
-            garage.setFillFactor(((double) garage.getCarsAmount() / garage.getCapacity()) * 100);
+            garageDto.setMostUsedFuel(FuelDto.entityToDto(fuel));
+            garageDto.setMostExpensiveCar(findMostExpensiveCar(garageDto));
+            garageDto.setAvgCarAmount(carRepository.findGarageCarsAveragePriceByGarageId(garageDto.getId()));
+            int garageCarsAmount = carRepository.findCarsAmountByGarageId(garageDto.getId());
+            garageDto.setFillFactor(((double) garageCarsAmount / garageDto.getCapacity()) * 100);
         }
 
         return garageDtos;
     }
 
     private CarDto findMostExpensiveCar(GarageDto garageDto) {
-        Car car = carRepository.findMostExpensive(garageDto.getId())
+        Car car = carRepository.findMostExpensiveCarByGarageId(garageDto.getId())
                 .orElse(new Car());
         return car.getFuel() == null ? CarDto.entityToFlatDto(car) : CarDto.entityToDtoWithFuel(car);
     }
@@ -56,11 +61,16 @@ public class GarageService {
         garageRepository.save(garage);
     }
 
-    public GarageDto findById(long garageId) {
-        Garage garage = garageRepository.findByIdWithAddressAndCarsJoin(garageId)
-                .orElseThrow(() -> new EntityNotFoundException(
-                        MessageFormat.format("Garage with id={0} not found", garageId)));
-
-        return GarageDto.entityToDtoWithAddressAndCars(garage);
-    }
+//    public GarageDto findById(long garageId) {
+////        Garage garage = garageRepository.findByIdWithAddressAndCarsJoin(garageId)
+////                .orElseThrow(() -> new EntityNotFoundException(
+////                        MessageFormat.format("Garage with id={0} not found", garageId)));
+////
+////        return GarageDto.entityToDtoWithAddress(garage);
+//
+//        Garage garage = garageRepository.findById(garageId)
+//                .orElseThrow(() -> new EntityNotFoundException(
+//                        MessageFormat.format("Garage with id={0} not found", garageId)));
+//        return GarageDto.
+//    }
 }

@@ -13,31 +13,7 @@
         text-align: center;
     }
 </style>
-<script>
-    document.addEventListener("DOMContentLoaded", () => {
-        watchBtns();
-    })
-
-    const watchBtns = () => {
-        document.querySelector(".add-garage-btn")
-            .addEventListener("click", () => {
-                document.location.replace("/garages/addForm")
-            })
-
-        document.querySelectorAll(".add-car-btn")
-            .forEach(btn => {
-                btn.addEventListener("click", ev => {
-                    document.location.replace(`/cars/addForm?garageId=${ev.target.dataset.id}`);
-                })
-            })
-        document.querySelectorAll(".show-cars-btn")
-            .forEach(btn => {
-                btn.addEventListener("click", ev => {
-                    document.location.replace(`/garages/cars?garageId=${ev.target.dataset.id}`);
-                })
-            })
-    }
-</script>
+<script src="/garages/showAll.js"></script>
 <body>
 <h3>List of garages:</h3>
 
@@ -45,9 +21,9 @@
     <thead>
     <tr>
         <th>No.</th>
-        <th>Capacity:</th>
+        <th>Capacity[places]:</th>
         <th>Lpg allowed:</th>
-        <th>Place width:</th>
+        <th>Place width[m]:</th>
         <th>Location[name, city]:</th>
         <th>Most fuel:</th>
         <th>Most expensive car[brand,price]:</th>
@@ -55,7 +31,7 @@
         <th>Garage fill[%]:</th>
     </tr>
     </thead>
-    <tbody> //${#numbers.formatDecimal(yourNumber, 2)}
+    <tbody>
     <tr th:each="garage, counter : ${garages}">
         <td class="data" th:text="${counter.count + '.'}"></td>
         <td class="data" th:text="${garage.capacity}"></td>
@@ -65,7 +41,7 @@
         <td class="data" th:text="${garage.mostUsedFuel.name == null ? 'Empty garage' : garage.mostUsedFuel.name}"></td>
         <td class="data"
             th:text="${garage.mostExpensiveCar.brand == null? 'Empty garage' :
-            garage.mostExpensiveCar.brand + ' ' + garage.mostExpensiveCar.price}"></td>
+            garage.mostExpensiveCar.brand + ', ' + garage.mostExpensiveCar.price}"></td>
         <td class="data" th:text="${#numbers.formatDecimal(garage.avgCarAmount,2,2)}"></td>
         <td class="data" th:text="${#numbers.formatDecimal(garage.fillFactor,1,1)}"></td>
         <td>
@@ -81,6 +57,8 @@
 
 <button class="add-garage-btn">ADD GARAGE</button>
 <br> <br>
-<a href="/">HOME</a>
+<ul class="redirections">
+    <li><a th:href="@{/}">Home page</a></li>
+</ul>
 </body>
 </html>

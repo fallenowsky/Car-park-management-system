@@ -1,5 +1,6 @@
 package pl.kurs.mmiaso.fuel.model.dto;
 
+import jakarta.validation.constraints.NotBlank;
 import lombok.Builder;
 import lombok.Data;
 import pl.kurs.mmiaso.fuel.model.Fuel;
@@ -8,6 +9,7 @@ import pl.kurs.mmiaso.fuel.model.Fuel;
 @Builder
 
 public class FuelDto {
+    @NotBlank
     private String name;
 
     public static Fuel dtoToEntity(FuelDto fuelDto) {

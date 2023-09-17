@@ -1,13 +1,8 @@
 package pl.kurs.mmiaso.car.model.dto;
 
-import jakarta.validation.constraints.DecimalMax;
-import jakarta.validation.constraints.DecimalMin;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.*;
 import lombok.Builder;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 import pl.kurs.mmiaso.car.model.Car;
 
 import java.math.BigDecimal;
@@ -16,7 +11,7 @@ import java.math.BigDecimal;
 @Data
 
 public class CarDto {
-    @NotNull
+    @NotBlank
     private String brand;
     @DecimalMin("1.0")
     @DecimalMax("10.0")
