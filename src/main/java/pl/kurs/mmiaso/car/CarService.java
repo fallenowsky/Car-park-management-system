@@ -48,7 +48,7 @@ public class CarService {
         int maxPlaces = garage.getCapacity();
         int takenPlaces = carRepository.findCarsAmountByGarageId(garage.getId());
 
-        if (takenPlaces == maxPlaces + 1) {
+        if (takenPlaces == maxPlaces) {
             throw new GarageIsFullWithCarsException("This garage is full!");
         }
 

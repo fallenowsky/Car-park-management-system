@@ -37,6 +37,9 @@ const showGarageCars = async id => {
     const cars = await carsRes.json();
     if (!carsRes.ok) {
         window.alert(carsRes.message);
+    } else if (cars.length === 0) {
+        window.alert("This garage has no cars!");
+        return;
     }
 
 

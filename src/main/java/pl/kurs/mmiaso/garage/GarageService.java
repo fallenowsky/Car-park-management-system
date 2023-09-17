@@ -61,16 +61,4 @@ public class GarageService {
         garageRepository.save(garage);
     }
 
-//    public GarageDto findById(long garageId) {
-////        Garage garage = garageRepository.findByIdWithAddressAndCarsJoin(garageId)
-////                .orElseThrow(() -> new EntityNotFoundException(
-////                        MessageFormat.format("Garage with id={0} not found", garageId)));
-////
-////        return GarageDto.entityToDtoWithAddress(garage);
-//
-//        Garage garage = garageRepository.findById(garageId)
-//                .orElseThrow(() -> new EntityNotFoundException(
-//                        MessageFormat.format("Garage with id={0} not found", garageId)));
-//        return GarageDto.
-//    }
 }
