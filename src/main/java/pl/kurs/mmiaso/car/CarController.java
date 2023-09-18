@@ -20,7 +20,7 @@ public class CarController {
     private final FuelService fuelService;
 
     @GetMapping("/addForm")
-    public String renderAddCarForm(@RequestParam("garageId") long id, Model model) {
+    public String renderAddForm(@RequestParam("garageId") long id, Model model) {
         model.addAttribute("garageId", id);
         model.addAttribute("fuels", fuelService.findAll());
         return "car/create";
@@ -28,14 +28,14 @@ public class CarController {
 
     @GetMapping("/by-garage-id")
     @ResponseBody
-    public ResponseEntity<List<CarDto>> getCarsByGarageId(@RequestParam("garageId") long garageId) {
+    public ResponseEntity<List<CarDto>> getAllByGarageId(@RequestParam("garageId") long garageId) {
         List<CarDto> cars = carService.findCarsByGarageId(garageId);
         return ResponseEntity.ok(cars);
     }
 
     @PostMapping("/create")
     public String create(
-            @Valid CarDto carDto,
+            @Valid @RequestBody CarDto carDto,
             @RequestParam("garageId") long garageId,
             @RequestParam("fuelId") long fuelId) {
 

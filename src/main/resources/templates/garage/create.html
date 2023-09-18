@@ -8,6 +8,14 @@
     <title>Create garage</title>
 </head>
 <body>
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        document.querySelector(".btn-bck")
+            .addEventListener("click", () => {
+                window.history.back();
+            })
+    })
+</script>
 <h2>Add a new garage:</h2>
 
 <form th:action="@{/garages/create}" method="post">
@@ -15,12 +23,13 @@
     <input type="hidden" name="fillFactor" value="0">
     <div>
         <label for="capacity">Garage capacity(available places):</label>
-        <input type="number" id="capacity" name="capacity" placeholder="capacity" min="1" step="1" max="1000" value="5" required/>
+        <input type="number" id="capacity" name="capacity" placeholder="capacity" min="1" step="1" max="1000" value="5"
+               required/>
     </div>
     <br>
     <div>
         <label for="lpg">Is lpg allowed?:</label>
-        <input type="checkbox" id="lpg" name="isLpgAllowed" value="true" />
+        <input type="checkbox" id="lpg" name="isLpgAllowed" value="true"/>
         <input type="hidden" name="isLpgAllowed" value="false">
     </div>
     <br>
@@ -42,9 +51,11 @@
         <label for="country"></label>
         <input type="text" id="country" name="country" placeholder="garage_country" required>
         <input type="hidden" name="carsAmount" value="1">
-    </div> <br> <br>
+    </div>
+    <br> <br>
     <button type="reset">RESET</button>
     <button type="submit">ADD</button>
+    <button class="btn-bck">BACK</button>
 </form>
 </body>
 </html>

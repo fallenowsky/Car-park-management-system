@@ -63,11 +63,11 @@ public class CarService {
 
     public List<CarDto> findCarsByGarageId(long garageId) {
         List<Car> cars = carRepository.findAllByGarageIdWithFuelJoin(garageId);
-        List<CarDto> carDto = new ArrayList<>();
+        List<CarDto> carsDto = new ArrayList<>();
 
         for (Car car : cars) {
-            carDto.add(CarDto.entityToDtoWithFuel(car));
+            carsDto.add(CarDto.entityToDtoWithFuel(car));
         }
-        return carDto;
+        return carsDto;
     }
 }

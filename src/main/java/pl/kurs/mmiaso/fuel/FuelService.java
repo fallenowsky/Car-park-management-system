@@ -15,8 +15,4 @@ public class FuelService {
     public List<Fuel> findAll() {
         return fuelRepository.findAll();
     }
-
-//    public Fuel findMostFuelTypeInGarage() {
-//        return fuelRepository.findMostFuelType
-//    }
 }
