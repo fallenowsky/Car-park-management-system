@@ -25,7 +25,7 @@ public class GarageService {
     /*generuje wieksza ilosc zapytan sql, ale znacznie oszczedzam pamiec i czas odpowiedzi
      * pobieram tylko to co mi jest potrzebne, bez powiazanych encji
      * dane potrzebne do obliczen moze mi zwrocic baza, nie potrzebuje miec tego w pamieci aplikacji(całych obiektów)
-     * gdyby bylo milion garazy i kazdy ma 1000 miejsc to bez sensu to wszystko tu ladowac  */
+     * gdyby bylo milion garazy i kazdy ma 1000 aut to bez sensu to wszystko tu ladowac  */
 
 
     public List<GarageDto> findAll() {

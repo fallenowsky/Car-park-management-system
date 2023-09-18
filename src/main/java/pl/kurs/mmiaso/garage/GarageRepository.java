@@ -10,6 +10,5 @@ public interface GarageRepository extends JpaRepository<Garage, Long> {
 
     @Query("select distinct G from Garage as G " +
             "left join fetch G.address ")
-//            "left join fetch G.cars")
     List<Garage> findALlWithAddressJoin();
 }

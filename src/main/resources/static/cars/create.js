@@ -1,4 +1,3 @@
-
 document.addEventListener("DOMContentLoaded", () => {
     sendForm();
     watchBtn();
@@ -11,9 +10,16 @@ const sendForm = () => {
 
             const width = parseFloat(document.getElementById("width").value);
             const garageId = parseFloat(document.getElementById("garageId").value);
-            const fuelId = parseFloat(document.getElementById("fuelId").value);
             const price = parseFloat(document.getElementById("price").value);
             const brand = document.getElementById("brand").value;
+            let fuelId = document.getElementById("fuelId").value;
+
+            if (isNaN(fuelId)) {
+                window.alert("Fuel not selected! Select a fuel first!");
+                return;
+            } else {
+                fuelId = parseFloat(fuelId);
+            }
 
             fetch(`/cars/create?garageId=${garageId}&fuelId=${fuelId}`, {
                 method: "POST",
