@@ -7,6 +7,5 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
-    show-sql: true
   application:
     name: car-park-management-app
