@@ -13,7 +13,7 @@ services:
     image: mysql:latest
     container_name: mysql-car-park-app
     environment:
-      MYSQL_ROOT_PASSWORD_FILE: run/secrets/db_root_password
+      MYSQL_ROOT_PASSWORD_FILE: /run/secrets/db_root_password
       MYSQL_DATABASE: car-park
       MYSQL_USERNAME: user
       MYSQL_PASSWORD_FILE: /run/secrets/db_user_password
@@ -21,11 +21,17 @@ services:
       - db_root_password
       - db_user_password
     ports:
-      - "3306:3306"
+      - "3307:3306"
     networks:
       - car-park-app-network
     volumes:
-      - car-park-app-volume: /var/lib/mysql
+      - car-park-app-volume:/var/lib/mysql
+    healthcheck:
+      test: [ "CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "--silent" ]
+      interval: 20s
+      timeout: 30s
+      retries: 5
+    restart: on-failure
 
   php-my-admin:
     image: phpmyadmin
