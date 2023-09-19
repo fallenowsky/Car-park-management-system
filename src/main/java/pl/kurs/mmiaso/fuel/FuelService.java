@@ -10,6 +10,10 @@ import pl.kurs.mmiaso.fuel.model.dto.FuelDto;
 import java.util.Arrays;
 import java.util.List;
 
+/* podczas startu aplikacji dodaje kilka defaultowych paliw jakie apka obsluguje
+ *  wychodze jednak z zalozenia, że moze powstac jakies nowe paliwo lub moge chciec obslugiwac diesla
+ *  wtedy moge rozszerzyc aplikacje i go w latwy sposob dodac */
+
 @Service
 @RequiredArgsConstructor
 
@@ -29,7 +33,6 @@ public class FuelService {
                 throw new ThisFuelAlreadyExists("Fuel you want to add is already added in the application!");
             }
         }
-
         fuelRepository.save(newFuel);
     }
 

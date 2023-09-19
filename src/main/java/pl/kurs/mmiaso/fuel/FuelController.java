@@ -38,5 +38,4 @@ public class FuelController {
         }
         return "fuel/create";
     }
-
 }
