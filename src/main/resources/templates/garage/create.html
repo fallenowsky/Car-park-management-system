@@ -8,14 +8,7 @@
     <title>Create garage</title>
 </head>
 <body>
-<script>
-    document.addEventListener("DOMContentLoaded", () => {
-        document.querySelector(".btn-bck")
-            .addEventListener("click", () => {
-                window.location.replace("/garages");
-            })
-    })
-</script>
+<script src="/garages/create.js"></script>
 <h2>Add a new garage:</h2>
 
 <form th:action="@{/garages/create}" method="post">

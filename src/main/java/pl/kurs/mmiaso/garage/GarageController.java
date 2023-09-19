@@ -28,7 +28,7 @@ public class GarageController {
         return "garage/create";
     }
 
-    @PostMapping("/create") // TODO: 16.09.2023 zapisywanie adresu garazu jakos poprawic usunac cascade isetowac adres
+    @PostMapping("/create")
     public String create(@Valid GarageDto garageDto, @Valid AddressDto addressDto) {
         garageService.save(garageDto, addressDto);
         return "redirect:/garages";

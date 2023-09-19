@@ -25,6 +25,8 @@ public class Car {
     private double width;
     private BigDecimal price;
 
+    /* relacje z Fuel unidirectional. zakładam, że paliwo nie musi wiedzieć w jakich autach jest uzywane */
+
     @ManyToOne(fetch = FetchType.LAZY)
     private Fuel fuel;
 

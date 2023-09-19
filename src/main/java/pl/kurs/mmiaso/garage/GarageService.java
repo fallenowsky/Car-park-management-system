@@ -39,7 +39,7 @@ public class GarageService {
                             .orElse(new Fuel());
             garageDto.setMostUsedFuel(FuelDto.entityToDto(fuel));
             garageDto.setMostExpensiveCar(findMostExpensiveCar(garageDto));
-            garageDto.setAvgCarAmount(carRepository.findGarageCarsAveragePriceByGarageId(garageDto.getId()));
+            garageDto.setAvgCarsAmount(carRepository.findGarageAverageCarsPriceByGarageId(garageDto.getId()));
             int garageCarsAmount = carRepository.findCarsAmountByGarageId(garageDto.getId());
             garageDto.setFillFactor(((double) garageCarsAmount / garageDto.getCapacity()) * 100);
         }
@@ -56,9 +56,8 @@ public class GarageService {
     public void save(GarageDto garageDto, AddressDto addressDto) {
         Garage garage = GarageDto.dtoToFlatEntity(garageDto);
         Address address = AddressDto.dtoToEntity(addressDto);
-        garage.setAddress(address);
 
+        garage.setAddress(address);
         garageRepository.save(garage);
     }
-
 }

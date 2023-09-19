@@ -26,7 +26,7 @@ public class GarageDto {
     private AddressDto addressDto;
     private FuelDto mostUsedFuel;
     private CarDto mostExpensiveCar;
-    private BigDecimal avgCarAmount;
+    private BigDecimal avgCarsAmount;
     private double fillFactor;
 
 

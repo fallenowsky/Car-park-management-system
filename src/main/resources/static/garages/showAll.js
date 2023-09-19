@@ -1,3 +1,4 @@
+
 document.addEventListener("DOMContentLoaded", () => {
     watchBtns();
 })
@@ -42,7 +43,6 @@ const showGarageCars = async id => {
         return;
     }
 
-
     const html = `
                 <div>
                   <h3>List of cars of garage name ${address.name}:</h3>
@@ -70,7 +70,7 @@ const showGarageCars = async id => {
                             <td class="data">${i++}.</td>
                             <td class="data">${car.brand}</td>
                             <td class="data">${car.width}</td>
-                            <td class="data">${car.fuelName}</td>
+                            <td class="data">${car.fuelName}</td> 
                             <td class="data">${(car.price)}</td>
                           </row>`
         tBody.insertAdjacentHTML('beforeend', html);
