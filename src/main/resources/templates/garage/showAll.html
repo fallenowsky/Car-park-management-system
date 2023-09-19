@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Garages</title>
+</head>
+<style>
+    .data {
+        width: 150px;
+        text-align: center;
+    }
+</style>
+<script src="/garages/showAll.js"></script>
+<body>
+<h3>List of garages:</h3>
+
+<table>
+    <thead>
+    <tr>
+        <th>No.</th>
+        <th>Capacity[places]:</th>
+        <th>Lpg allowed:</th>
+        <th>Place width[m]:</th>
+        <th>Location[name, city]:</th>
+        <th>Most fuel:</th>
+        <th>Most expensive car[brand,price]:</th>
+        <th>Average car price:</th>
+        <th>Garage fill[%]:</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="garage, counter : ${garages}">
+        <td class="data" th:text="${counter.count + '.'}"></td>
+        <td class="data" th:text="${garage.capacity}"></td>
+        <td class="data" th:text="${garage.isLpgAllowed? 'Yes' : 'No'}"></td>
+        <td class="data" th:text="${garage.placeWidth}"></td>
+        <td class="data" th:text="${garage.addressDto.name + ', ' + garage.addressDto.city}"></td>
+        <td class="data" th:text="${garage.mostUsedFuel.name == null ? 'Empty garage' : garage.mostUsedFuel.name}"></td>
+        <td class="data"
+            th:text="${garage.mostExpensiveCar.brand == null? 'Empty garage' :
+            garage.mostExpensiveCar.brand + ', ' + garage.mostExpensiveCar.price}"></td>
+        <td class="data" th:text="${garage.avgCarsAmount != null ?
+         #numbers.formatDecimal(garage.avgCarsAmount,2,2) : '0.0'}"></td>
+        <td class="data" th:text="${#numbers.formatDecimal(garage.fillFactor,1,1)}"></td>
+        <td>
+            <button class="add-car-btn" th:data-id="${garage.id}">ADD CAR</button>
+        </td>
+        <td class="data">
+            <button class="show-cars-btn" th:data-id="${garage.id}">SHOW CARS</button>
+        </td>
+    </tr>
+    </tbody>
+</table>
+<br><br>
+
+<button class="add-garage-btn">ADD GARAGE</button>
+<br> <br>
+<ul class="redirections">
+    <li><a th:href="@{/}">Home page</a></li>
+</ul>
+</body>
+</html>

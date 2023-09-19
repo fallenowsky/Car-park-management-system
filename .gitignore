@@ -1,7 +1,9 @@
 HELP.md
 target/
-!.mvn/wrapper/maven-wrapper.jar
-!**/src/main/**/target/
+db_root_password.txt
+db_user_password.txt
+#!.mvn/wrapper/maven-wrapper.jar
+#!**/src/main/**/target/
 !**/src/test/**/target/
 
 ### STS ###

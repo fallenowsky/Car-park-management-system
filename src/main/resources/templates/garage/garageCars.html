@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Garage-cars</title>
+</head>
+<style>
+    .data {
+        width: 150px;
+        text-align: center;
+    }
+</style>
+<body>
+<h3 th:text="'List of cars of garage named ' +  ${ garage.addressDto.name } + ' from city ' + ${garage.addressDto.city} "></h3><br>
+<br>
+
+<table>
+    <thead>
+    <tr>
+        <th>No.</th>
+        <th>Car brand:</th>
+        <th>Car width:</th>
+        <th>Car fuel:</th>
+        <th>Car price:</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="car, counter : ${cars}">
+        <td class="data" th:text="${counter.count + '.'}"></td>
+        <td class="data" th:text="${car.brand}"></td>
+        <td class="data" th:text="${car.width}"></td>
+        <td class="data" th:text="${car.fuelName}"></td>
+        <td class="data" th:text="${car.price}"></td>
+    </tr>
+    </tbody>
+</table>
+<br><br>
+<a href="/garages">GARAGES</a>
+<a href="/">HOME</a>
+</body>
+</html>

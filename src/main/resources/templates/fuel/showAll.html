@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Fuels</title>
+</head>
+<script src="/fuels/showAll.js"></script>
+<style>
+    .data {
+        width: 150px;
+        text-align: center;
+    }
+</style>
+<body>
+<h3>List of fuels in my car-park-app:</h3> <br> <br>
+<table>
+    <thead>
+    <tr>
+        <th>No.</th>
+        <th>Id.</th>
+        <th>Name:</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="fuel, counter : ${fuels}">
+        <td class="data" th:text="${counter.count + '.'}"></td>
+        <td class="data" th:text="${fuel.id}"></td>
+        <td class="data" th:text="${fuel.name}"></td>
+    </tr>
+    </tbody>
+</table>
+<br><br>
+
+<button class="add-fuel-btn">ADD FUEL</button>
+<br> <br>
+
+<ul class="redirections">
+    <li><a th:href="@{/}">HOME PAGE</a></li>
+    <li><a th:href="@{/garages}">GARAGES</a></li>
+</ul>
+</body>
+</html>
