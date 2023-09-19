@@ -1,0 +1,50 @@
+services:
+  app:
+    build: .
+    container_name: car-park-app-test
+    ports:
+      - "8080:8080"
+    depends_on:
+      - database
+    networks:
+      - car-park-app-network
+
+  database:
+    image: mysql:latest
+    container_name: mysql-car-park-app
+    environment:
+      MYSQL_ROOT_PASSWORD_FILE: run/secrets/db_root_password
+      MYSQL_DATABASE: car-park
+      MYSQL_USERNAME: user
+      MYSQL_PASSWORD_FILE: /run/secrets/db_user_password
+    secrets:
+      - db_root_password
+      - db_user_password
+    ports:
+      - "3306:3306"
+    networks:
+      - car-park-app-network
+    volumes:
+      - car-park-app-volume: /var/lib/mysql
+
+  php-my-admin:
+    image: phpmyadmin
+    container_name: php-my-admin-car-park-app
+    ports:
+      - "8090:80"
+    environment:
+      PMA_ARBITRARY: 1
+    networks:
+    - car-park-app-network
+
+secrets:
+  db_root_password:
+    file: db_root_password.txt
+  db_user_password:
+    file: db_user_password.txt
+
+networks:
+  car-park-app-network:
+
+volumes:
+  car-park-app-volume:
