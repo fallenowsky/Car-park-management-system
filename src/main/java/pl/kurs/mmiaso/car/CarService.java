@@ -10,6 +10,7 @@ import pl.kurs.mmiaso.car.exceptions.GarageNotHandleLpgException;
 import pl.kurs.mmiaso.car.exceptions.GaragePlaceIsTooNarrowException;
 import pl.kurs.mmiaso.car.exceptions.MaxOptimisticTriesExceededException;
 import pl.kurs.mmiaso.car.model.Car;
+import pl.kurs.mmiaso.car.model.command.CreateCarCommand;
 import pl.kurs.mmiaso.car.model.dto.CarDto;
 import pl.kurs.mmiaso.fuel.FuelRepository;
 import pl.kurs.mmiaso.fuel.model.Fuel;
@@ -22,7 +23,6 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-
 public class CarService {
     private final CarRepository carRepository;
     private final GarageRepository garageRepository;
@@ -30,8 +30,8 @@ public class CarService {
 
 
     @Transactional
-    public void save(CarDto carDto, long garageId, long fuelId) {
-        Car car = CarDto.dtoToEntity(carDto);
+    public void save(CreateCarCommand command, long garageId, long fuelId) {
+        Car car = CreateCarCommand.commandToEntity(command);
         int tries = 2;
 
         while (tries >= 0) {

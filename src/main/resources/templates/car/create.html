@@ -26,7 +26,7 @@
         <label for="fuelId">Fuel type:</label>
         <select name="fuelId" id="fuelId" required>
             <option disabled selected>Select_fuel</option>
-            <option th:each="fuel: ${fuels}" th:text="${fuel.name}" th:value="${fuel.id}"></option>
+            <option th:each="fuel : ${fuels}" th:text="${fuel.name}" th:value="${fuel.id}"></option>
         </select> <br> <br>
     </div>
     <br>

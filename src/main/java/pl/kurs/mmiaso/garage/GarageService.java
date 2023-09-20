@@ -1,10 +1,9 @@
 package pl.kurs.mmiaso.garage;
 
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import pl.kurs.mmiaso.address.model.Address;
-import pl.kurs.mmiaso.address.model.dto.AddressDto;
+import pl.kurs.mmiaso.address.model.command.CreateAddressCommand;
 import pl.kurs.mmiaso.car.CarRepository;
 import pl.kurs.mmiaso.car.model.Car;
 import pl.kurs.mmiaso.car.model.dto.CarDto;
@@ -12,6 +11,7 @@ import pl.kurs.mmiaso.fuel.model.Fuel;
 import pl.kurs.mmiaso.fuel.model.dto.FuelDto;
 import pl.kurs.mmiaso.garage.model.Garage;
 import pl.kurs.mmiaso.garage.model.dto.GarageDto;
+import pl.kurs.mmiaso.garage.model.command.CreateGarageCommand;
 
 import java.util.List;
 import java.util.Objects;
@@ -51,13 +51,13 @@ public class GarageService {
     private CarDto findMostExpensiveCar(GarageDto garageDto) {
         Car car = carRepository.findMostExpensiveCarByGarageId(garageDto.getId())
                 .orElse(new Car());
-        return car.getFuel() == null ? CarDto.entityToFlatDto(car) : CarDto.entityToDtoWithFuel(car);
+//        return car.getFuel() == null ? CarDto.entityToFlatDto(car) : CarDto.entityToDtoWithFuel(car);
+        return CarDto.entityToFlatDto(car);
     }
 
-    @Transactional
-    public void save(GarageDto garageDto, AddressDto addressDto) {
-        Garage garage = GarageDto.dtoToFlatEntity(garageDto);
-        Address address = AddressDto.dtoToEntity(addressDto);
+    public void save(CreateGarageCommand garageCommand, CreateAddressCommand addressCommand) {
+        Garage garage = CreateGarageCommand.commandToEntity(garageCommand);
+        Address address = CreateAddressCommand.commandToEntity(addressCommand);
 
         garage.setAddress(address);
         garageRepository.save(garage);

@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import pl.kurs.mmiaso.fuel.exceptions.ThisFuelAlreadyExists;
-import pl.kurs.mmiaso.fuel.model.dto.FuelDto;
+import pl.kurs.mmiaso.fuel.model.command.CreateFuelCommand;
 
 @Controller
 @RequiredArgsConstructor
@@ -29,9 +29,9 @@ public class FuelController {
     }
 
     @PostMapping("/create")
-    public String create(@Valid FuelDto fuelDto, Model model) {
+    public String create(@Valid CreateFuelCommand command, Model model) {
         try {
-            fuelService.save(fuelDto);
+            fuelService.save(command);
             return "redirect:/fuels";
         } catch (ThisFuelAlreadyExists e) {
             model.addAttribute("errMessage", e.getMessage());
