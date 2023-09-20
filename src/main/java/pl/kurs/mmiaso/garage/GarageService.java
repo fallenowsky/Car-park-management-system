@@ -1,5 +1,6 @@
 package pl.kurs.mmiaso.garage;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import pl.kurs.mmiaso.address.model.Address;
@@ -53,6 +54,7 @@ public class GarageService {
         return car.getFuel() == null ? CarDto.entityToFlatDto(car) : CarDto.entityToDtoWithFuel(car);
     }
 
+    @Transactional
     public void save(GarageDto garageDto, AddressDto addressDto) {
         Garage garage = GarageDto.dtoToFlatEntity(garageDto);
         Address address = AddressDto.dtoToEntity(addressDto);

@@ -8,6 +8,6 @@ public class ErrorController {
 
     @RequestMapping("/*")
     public String handleNotFound() {
-        return "error/404";
+        return "429";
     }
 }

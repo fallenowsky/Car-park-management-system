@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import pl.kurs.mmiaso.car.exceptions.MaxOptimisticTriesExceededException;
 import pl.kurs.mmiaso.car.model.dto.CarDto;
 import pl.kurs.mmiaso.fuel.FuelService;
 
@@ -39,7 +40,11 @@ public class CarController {
             @RequestParam("garageId") long garageId,
             @RequestParam("fuelId") long fuelId) {
 
-        carService.save(carDto, garageId, fuelId);
-        return "redirect:/garages";
+        try {
+            carService.save(carDto, garageId, fuelId);
+            return "redirect:/garages";
+        } catch (MaxOptimisticTriesExceededException e) {
+            return "error/429";
+        }
     }
 }

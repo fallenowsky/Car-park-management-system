@@ -1,6 +1,7 @@
 package pl.kurs.mmiaso.car;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import pl.kurs.mmiaso.car.model.Car;

@@ -1,11 +1,12 @@
 spring:
   datasource:
-    url: jdbc:mysql://database:3306/car-park
+    url: jdbc:mysql://localhost:3306/car-park
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: root
     password: root
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: create-drop
+    show-sql: true
   application:
     name: car-park-management-app

@@ -1,11 +1,14 @@
 package pl.kurs.mmiaso.car;
 
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.persistence.OptimisticLockException;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import pl.kurs.mmiaso.car.exceptions.GarageIsFullWithCarsException;
 import pl.kurs.mmiaso.car.exceptions.GarageNotHandleLpgException;
 import pl.kurs.mmiaso.car.exceptions.GaragePlaceIsTooNarrowException;
+import pl.kurs.mmiaso.car.exceptions.MaxOptimisticTriesExceededException;
 import pl.kurs.mmiaso.car.model.Car;
 import pl.kurs.mmiaso.car.model.dto.CarDto;
 import pl.kurs.mmiaso.fuel.FuelRepository;
@@ -26,22 +29,32 @@ public class CarService {
     private final FuelRepository fuelRepository;
 
 
+    @Transactional
     public void save(CarDto carDto, long garageId, long fuelId) {
         Car car = CarDto.dtoToEntity(carDto);
+        int tries = 2;
 
-        Garage garage = garageRepository.findById(garageId)
-                .orElseThrow(() -> new EntityNotFoundException(
-                        MessageFormat.format("Garage with id={0} not found", garageId)));
+        while (tries >= 0) {
+            Garage garage = garageRepository.findWithLockingById(garageId)
+                    .orElseThrow(() -> new EntityNotFoundException(
+                            MessageFormat.format("Garage with id={0} not found", garageId)));
 
-        Fuel fuel = fuelRepository.findById(fuelId)
-                .orElseThrow(() -> new EntityNotFoundException(
-                        MessageFormat.format("Fuel with id={0} not found", fuelId)));
+            Fuel fuel = fuelRepository.findById(fuelId)
+                    .orElseThrow(() -> new EntityNotFoundException(
+                            MessageFormat.format("Fuel with id={0} not found", fuelId)));
 
-        car.setFuel(fuel);
-        validateCarGarageConstrains(garage, car);
-        car.setGarage(garage);
+            car.setFuel(fuel);
+            validateCarGarageConstrains(garage, car);
+            car.setGarage(garage);
 
-        carRepository.save(car);
+            try {
+                carRepository.save(car);
+                return;
+            } catch (OptimisticLockException e) {
+                tries--;
+            }
+        }
+        throw new MaxOptimisticTriesExceededException("Exceeded max tries to save a car!");
     }
 
     private void validateCarGarageConstrains(Garage garage, Car car) {

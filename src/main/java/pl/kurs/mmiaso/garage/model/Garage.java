@@ -25,6 +25,9 @@ public class Garage {
     private boolean isLpgAllowed;
     private double placeWidth;
 
+    @Version
+    private Long version;
+
     @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
     private Address address;
 

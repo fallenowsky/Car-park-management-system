@@ -1,6 +1,7 @@
 package pl.kurs.mmiaso.fuel;
 
 import jakarta.annotation.PostConstruct;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import pl.kurs.mmiaso.fuel.exceptions.ThisFuelAlreadyExists;
