@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Cars</title>
+</head>
+<style>
+    .data {
+        width: 150px;
+        text-align: center;
+    }
+</style>
+<script defer>
+    document.addEventListener("DOMContentLoaded", () => {
+        watchBtns();
+    })
+
+    const watchBtns = () => {
+        document.querySelector(".add-to-garage-btn")
+            .addEventListener("click", ev => {
+                window.location.replace(`/garages/add-to-garage?carId=${ev.target.dataset.id}`);
+            })
+        document.querySelector(".add-car-btn")
+            .addEventListener("click", () => {
+                window.location.replace("/cars/add");
+            })
+    }
+
+</script>
+<body>
+<h3>List of cars:</h3>
+<h5 th:if="${cars.isEmpty()}" th:text="${'Cars list is empty'}"></h5>
+<table>
+    <thead>
+    <tr th:if="${!cars.isEmpty()}">
+        <th>No.</th>
+        <th>Brand:</th>
+        <th>Width:</th>
+        <th>Fuel type:</th>
+        <th>Price:</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="car, counter : ${cars}">
+        <td class="data" th:text="${counter.count + '.'}"></td>
+        <td class="data" th:text="${car.brand}"></td>
+        <td class="data" th:text="${car.width}"></td>
+        <td class="data" th:text="${car.fuelName}"></td>
+        <td class="data" th:text="${#numbers.formatDecimal(car.price,2,2)}"></td>
+        <td>
+            <button class="add-to-garage-btn" th:data-id="${car.id}">ADD TO GARAGE</button>
+        </td>
+    </tr>
+    </tbody>
+</table>
+<br><br>
+
+<button class="add-car-btn">ADD CAR</button>
+<br> <br>
+<ul>
+    <li><a th:href="@{/}">HOME PAGE</a></li>
+    <li><a th:href="@{/garages}">GARAGES</a></li>
+    <li><a th:href="@{/fuels}">FUELS</a></li>
+</ul>
+</body>
+</html>

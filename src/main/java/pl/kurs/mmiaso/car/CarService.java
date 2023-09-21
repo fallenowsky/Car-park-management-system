@@ -29,33 +29,50 @@ public class CarService {
     private final FuelRepository fuelRepository;
 
 
-    @Transactional
-    public void save(CreateCarCommand command, long garageId, long fuelId) {
-        Car car = CreateCarCommand.commandToEntity(command);
-        int tries = 2;
-
-        while (tries >= 0) {
-            Garage garage = garageRepository.findWithLockingById(garageId)
-                    .orElseThrow(() -> new EntityNotFoundException(
-                            MessageFormat.format("Garage with id={0} not found", garageId)));
-
-            Fuel fuel = fuelRepository.findById(fuelId)
-                    .orElseThrow(() -> new EntityNotFoundException(
-                            MessageFormat.format("Fuel with id={0} not found", fuelId)));
-
-            car.setFuel(fuel);
-            validateCarGarageConstrains(garage, car);
-            car.setGarage(garage);
-
-            try {
-                carRepository.save(car);
-                return;
-            } catch (OptimisticLockException e) {
-                tries--;
-            }
-        }
-        throw new MaxOptimisticTriesExceededException("Exceeded max tries to save a car!");
+    public List<CarDto> findAllWithFuelJoin() {
+        return carRepository.findAllWithFuelJoin().stream()
+                .map(CarDto::entityToDtoWithFuel)
+                .toList();
     }
+
+    public void save(CreateCarCommand command, long fuelId) {
+        Car car = CreateCarCommand.commandToEntity(command);
+
+        Fuel fuel = fuelRepository.findById(fuelId)
+                .orElseThrow(() -> new EntityNotFoundException(
+                        MessageFormat.format("Fuel with id={0] not found", fuelId)));
+
+        car.setFuel(fuel);
+        carRepository.save(car);
+    }
+
+//    @Transactional
+//    public void save(CreateCarCommand command, long garageId, long fuelId) {
+//        Car car = CreateCarCommand.commandToEntity(command);
+//        int tries = 2;
+//
+//        while (tries >= 0) {
+//            Garage garage = garageRepository.findWithLockingById(garageId)
+//                    .orElseThrow(() -> new EntityNotFoundException(
+//                            MessageFormat.format("Garage with id={0} not found", garageId)));
+//
+//            Fuel fuel = fuelRepository.findById(fuelId)
+//                    .orElseThrow(() -> new EntityNotFoundException(
+//                            MessageFormat.format("Fuel with id={0} not found", fuelId)));
+//
+//            car.setFuel(fuel);
+//            validateCarGarageConstrains(garage, car);
+//            car.setGarage(garage);
+//
+//            try {
+//                carRepository.save(car);
+//                return;
+//            } catch (OptimisticLockException e) {
+//                tries--;
+//            }
+//        }
+//        throw new MaxOptimisticTriesExceededException("Exceeded max tries to save a car!");
+//    }
 
     private void validateCarGarageConstrains(Garage garage, Car car) {
         int maxPlaces = garage.getCapacity();
@@ -74,7 +91,7 @@ public class CarService {
         }
     }
 
-    public List<CarDto> findCarsByGarageId(long garageId) {
+    public List<CarDto> findCarsByGarageId(long garageId) { //todo zamienic jak u gory
         List<Car> cars = carRepository.findAllByGarageIdWithFuelJoin(garageId);
         List<CarDto> carsDto = new ArrayList<>();
 
@@ -83,4 +100,5 @@ public class CarService {
         }
         return carsDto;
     }
+
 }
