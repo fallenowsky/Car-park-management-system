@@ -32,7 +32,7 @@ public interface CarRepository extends JpaRepository<Car, Long> {
             "where C.garage.id = :id " +
             "group by F " +
             "order by fuelCount desc limit 1")
-    Optional<Fuel> findMostusedFuelByGarageId(@Param("id") Long garageId);
+    Optional<Fuel> findMostUsedFuelByGarageId(@Param("id") Long garageId);
 
     @Query("select count(C.id) from Car as C " +
             "where C.garage.id = :id")

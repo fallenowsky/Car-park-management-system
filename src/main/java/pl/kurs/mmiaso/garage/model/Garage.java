@@ -14,7 +14,6 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name="garages")
-
 public class Garage {
 
     @Id

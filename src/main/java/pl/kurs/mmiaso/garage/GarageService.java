@@ -45,7 +45,7 @@ public class GarageService {
     }
 
     private FuelDto findMostUsedFuel(long garageId) {
-        Fuel fuel = carRepository.findMostusedFuelByGarageId(garageId)
+        Fuel fuel = carRepository.findMostUsedFuelByGarageId(garageId)
                 .orElse(new Fuel());
         return FuelDto.entityToDto(fuel);
     }

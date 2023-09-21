@@ -59,8 +59,8 @@ class GarageServiceTest {
         Car bmw = Car.builder().brand("BMW").width(2.7).price(BigDecimal.valueOf(29292.1)).build();
         Car audi = Car.builder().brand("AUDI").width(2.2).price(BigDecimal.valueOf(54323.2)).build();
         when(garageRepository.findALlWithAddressJoin()).thenReturn(garages);
-        when(carRepository.findMostusedFuelByGarageId(garageId)).thenReturn(Optional.of(petrol));
-        when(carRepository.findMostusedFuelByGarageId(garage2Id)).thenReturn(Optional.of(hybrid));
+        when(carRepository.findMostUsedFuelByGarageId(garageId)).thenReturn(Optional.of(petrol));
+        when(carRepository.findMostUsedFuelByGarageId(garage2Id)).thenReturn(Optional.of(hybrid));
         when(carRepository.findMostExpensiveCarByGarageId(garageId)).thenReturn(Optional.of(bmw));
         when(carRepository.findMostExpensiveCarByGarageId(garage2Id)).thenReturn(Optional.of(audi));
         when(carRepository.findGarageAverageCarsPriceByGarageId(garageId)).thenReturn(bmw.getPrice());
@@ -87,8 +87,8 @@ class GarageServiceTest {
         }
         verify(garageRepository).findALlWithAddressJoin();
         verifyNoMoreInteractions(garageRepository);
-        verify(carRepository).findMostusedFuelByGarageId(garageId);
-        verify(carRepository).findMostusedFuelByGarageId(garage2Id);
+        verify(carRepository).findMostUsedFuelByGarageId(garageId);
+        verify(carRepository).findMostUsedFuelByGarageId(garage2Id);
         verify(carRepository).findMostExpensiveCarByGarageId(garageId);
         verify(carRepository).findMostExpensiveCarByGarageId(garage2Id);
         verify(carRepository).findGarageAverageCarsPriceByGarageId(garageId);
