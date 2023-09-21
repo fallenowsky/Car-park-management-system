@@ -1,95 +1,144 @@
-//package pl.kurs.mmiaso.garage;
-//
-//import org.junit.jupiter.api.BeforeEach;
-//import org.junit.jupiter.api.Test;
-//import org.junit.jupiter.api.extension.ExtendWith;
-//import org.mockito.ArgumentCaptor;
-//import org.mockito.Captor;
-//import org.mockito.InjectMocks;
-//import org.mockito.Mock;
-//import org.mockito.junit.jupiter.MockitoExtension;
-//import pl.kurs.mmiaso.address.model.Address;
-//import pl.kurs.mmiaso.car.CarRepository;
-//import pl.kurs.mmiaso.car.model.Car;
-//import pl.kurs.mmiaso.fuel.model.Fuel;
-//import pl.kurs.mmiaso.garage.model.Garage;
-//import pl.kurs.mmiaso.garage.model.dto.GarageDto;
-//
-//import java.math.BigDecimal;
-//import java.util.Arrays;
-//import java.util.List;
-//import java.util.Optional;
-//
-//import static org.junit.jupiter.api.Assertions.*;
-//import static org.mockito.Mockito.verify;
-//import static org.mockito.Mockito.when;
-//
-//@ExtendWith(MockitoExtension.class)
-//class GarageServiceTest {
-//    @Mock
-//    private GarageRepository garageRepository;
-//    @Mock
-//    private CarRepository carRepository;
-//    @InjectMocks
-//    private GarageService service;
-//    @Captor
-//    private ArgumentCaptor<Garage> garageArgumentCaptor;
-//    private Garage garage;
-//    private Garage garage2;
-//    private GarageDto garageDto;
-//    private GarageDto garage2Dto;
-//    private Fuel fuel;
-//    private Car car;
-//    private long garageId;
-//
-//    @BeforeEach
-//    public void init() {
-//        Address address = Address.builder().id(1L).name("fallenowsky").street("Zlota 44").zipCode("44-233")
-//                .city("Warszawa").country("Poland").build();
+package pl.kurs.mmiaso.garage;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+import pl.kurs.mmiaso.address.model.Address;
+import pl.kurs.mmiaso.address.model.command.CreateAddressCommand;
+import pl.kurs.mmiaso.car.CarRepository;
+import pl.kurs.mmiaso.car.model.Car;
+import pl.kurs.mmiaso.car.model.dto.CarDto;
+import pl.kurs.mmiaso.fuel.model.Fuel;
+import pl.kurs.mmiaso.fuel.model.dto.FuelDto;
+import pl.kurs.mmiaso.garage.model.Garage;
+import pl.kurs.mmiaso.garage.model.command.CreateGarageCommand;
+import pl.kurs.mmiaso.garage.model.dto.GarageDto;
+
+import java.math.BigDecimal;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
+import static org.mockito.Mockito.*;
+
+@ExtendWith(MockitoExtension.class)
+class GarageServiceTest {
+    @Mock
+    private GarageRepository garageRepository;
+    @Mock
+    private CarRepository carRepository;
+    @InjectMocks
+    private GarageService service;
+    @Captor
+    private ArgumentCaptor<Garage> garageArgumentCaptor;
+    private Garage garage;
+    private Garage garage2;
+    private GarageDto garageDto;
+    private GarageDto garage2Dto;
+    private long garageId;
+
+    @BeforeEach
+    public void init() {
+        Address address = Address.builder().id(1L).name("fallenowsky").street("Zlota 44").zipCode("44-233")
+                .city("Warszawa").country("Poland").build();
 //        Address address2 = Address.builder().id(2L).name("quarkowsky").street("Srebrna 44").zipCode("43-255")
 //                .city("Warszawa").country("Poland").build();
-//        garage = Garage.builder().id(1L).capacity(3).isLpgAllowed(true).address(address).build();
-//        garage2 = Garage.builder().id(2L).capacity(5).isLpgAllowed(false).address(address2).build();
-//        car = Car.builder().brand("BMW").width(2.7).price(BigDecimal.valueOf(29292.1)).build();
-//        fuel = Fuel.builder().id(1L).name("Petrol").build();
-//        garageId = 1L;
-//    }
-//
-//    @Test
-//    public void testFindAll_ResultsInRepositoryGaragesListReturnedAndMockMethodCall() {
-//        List<Garage> garages = Arrays.asList(garage, garage2);
-//        when(garageRepository.findALlWithAddressJoin()).thenReturn(garages);
-//        when(carRepository.findMostCommonFuelByGarageId(garageId)).thenReturn(Optional.of(fuel));
-//        when(carRepository.findGarageAverageCarsPriceByGarageId(garageId)).thenReturn(BigDecimal.valueOf(32321.22));
-//        when(carRepository.findCarsAmountByGarageId(garageId)).thenReturn(2);
-//        when(carRepository.findMostExpensiveCarByGarageId(garageId)).thenReturn(Optional.of(car));
-//
-//        List<GarageDto> returned = service.findAll();
-//
-//
-//
-//    }
-//
-//    @Test
-//    public void testSave_findMostExpensiveCar_ResultsInMockMethodCallAndGarageCapture() {
-//        when(garageRepository.findWithLockingById(garageId)).thenReturn(Optional.of(garage));
-//
-//
-//
-//        when(fuelRepository.findById(fuelId)).thenReturn(Optional.of(fuel));
-//        when(carRepository.findCarsAmountByGarageId(garageId)).thenReturn(2);
-//
-//        service.save(carDto, garageId, fuelId);
-//
-//        verify(garageRepository).findWithLockingById(garageId);
-//        verify(fuelRepository).findById(fuelId);
-//        verify(carRepository).save(carArgumentCaptor.capture());
-//        Car carCaptured = carArgumentCaptor.getValue();
-//        assertEquals(car.getBrand(), carCaptured.getBrand());
-//        assertEquals(car.getGarage(), carCaptured.getGarage());
-//        assertEquals(car.getFuel(), carCaptured.getFuel());
-//        assertEquals(car.getPrice(), carCaptured.getPrice());
-//        assertEquals(car.getWidth(), carCaptured.getWidth());
-//    }
-//
-//}
+        garage = Garage.builder().id(1L).capacity(3).isLpgAllowed(true).address(address).build();
+        garage2 = Garage.builder().id(2L).capacity(5).isLpgAllowed(false).address(address).build();
+        garageId = 1L;
+    }
+
+    @Test
+    public void testFindAll_GaragesFound_ResultsInRepositoryGaragesListReturnedAndMockMethodCall() {
+        List<Garage> garages = Arrays.asList(garage, garage2);
+        long garageId = garage.getId();
+        long garage2Id = garage2.getId();
+        Fuel petrol = Fuel.builder().id(1L).name("Petrol").build();
+        Fuel hybrid = Fuel.builder().id(1L).name("Hybrid").build();
+        Car bmw = Car.builder().brand("BMW").width(2.7).price(BigDecimal.valueOf(29292.1)).build();
+        Car audi = Car.builder().brand("AUDI").width(2.2).price(BigDecimal.valueOf(54323.2)).build();
+        when(garageRepository.findALlWithAddressJoin()).thenReturn(garages);
+        when(carRepository.findMostCommonFuelByGarageId(garageId)).thenReturn(Optional.of(petrol));
+        when(carRepository.findMostCommonFuelByGarageId(garage2Id)).thenReturn(Optional.of(hybrid));
+        when(carRepository.findMostExpensiveCarByGarageId(garageId)).thenReturn(Optional.of(bmw));
+        when(carRepository.findMostExpensiveCarByGarageId(garage2Id)).thenReturn(Optional.of(audi));
+        when(carRepository.findGarageAverageCarsPriceByGarageId(garageId)).thenReturn(bmw.getPrice());
+        when(carRepository.findGarageAverageCarsPriceByGarageId(garage2Id)).thenReturn(audi.getPrice());
+        when(carRepository.findCarsAmountByGarageId(garageId)).thenReturn(2);
+        when(carRepository.findCarsAmountByGarageId(garage2Id)).thenReturn(3);
+
+        List<GarageDto> returned = service.findAll();
+
+        for (int i = 0; i < returned.size(); i++) {
+            GarageDto garage = returned.get(i);
+
+            if (i == 0) {
+                assertEquals(garage.getMostUsedFuel(), FuelDto.entityToDto(petrol));
+                assertEquals(garage.getMostExpensiveCar(), CarDto.entityToFlatDto(bmw));
+                assertEquals(garage.getAvgCarsAmount(), bmw.getPrice());
+                assertEquals(garage.getFillFactor(), 66.6, 0.1);
+            } else {
+                assertEquals(garage.getMostUsedFuel(), FuelDto.entityToDto(hybrid));
+                assertEquals(garage.getMostExpensiveCar(), CarDto.entityToFlatDto(audi));
+                assertEquals(garage.getAvgCarsAmount(), audi.getPrice());
+                assertEquals(garage.getFillFactor(), 60, 0.1);
+            }
+        }
+        verify(garageRepository).findALlWithAddressJoin();
+        verifyNoMoreInteractions(garageRepository);
+        verify(carRepository).findMostCommonFuelByGarageId(garageId);
+        verify(carRepository).findMostCommonFuelByGarageId(garage2Id);
+        verify(carRepository).findMostExpensiveCarByGarageId(garageId);
+        verify(carRepository).findMostExpensiveCarByGarageId(garage2Id);
+        verify(carRepository).findGarageAverageCarsPriceByGarageId(garageId);
+        verify(carRepository).findGarageAverageCarsPriceByGarageId(garage2Id);
+        verify(carRepository).findCarsAmountByGarageId(garageId);
+        verify(carRepository).findCarsAmountByGarageId(garage2Id);
+    }
+
+    @Test
+    public void testFindAll_GaragesNotFound_ResultsInEmptyListReturnedAndNoLoopRepeats() {
+        List<GarageDto> returned = service.findAll();
+
+        assertEquals(Collections.emptyList(), returned);
+        verify(garageRepository).findALlWithAddressJoin();
+        verifyNoMoreInteractions(garageRepository);
+        verifyNoInteractions(carRepository);
+    }
+
+
+    @Test
+    public void testSave_MethodInputsCorrect_ResultsInMockMethodCallAndGarageCapture() {
+        CreateGarageCommand garageCommand = CreateGarageCommand.builder()
+                .capacity(4)
+                .isLpgAllowed(false)
+                .placeWidth(3.2)
+                .build();
+        CreateAddressCommand addressCommand = CreateAddressCommand.builder()
+                .name("fallenowsky")
+                .street("Złota 44")
+                .zipCode("21-321")
+                .city("Warszawa")
+                .country("Poland")
+                .build();
+        Garage garage = CreateGarageCommand.commandToEntity(garageCommand);
+
+        service.save(garageCommand, addressCommand);
+
+        verify(garageRepository).save(garageArgumentCaptor.capture());
+        Garage garageCaptured = garageArgumentCaptor.getValue();
+        assertEquals(garage.getCapacity(), garageCaptured.getCapacity());
+        assertEquals(garage.getPlaceWidth(), garageCaptured.getPlaceWidth());
+        assertEquals(garage.isLpgAllowed(), garageCaptured.isLpgAllowed());
+        verifyNoMoreInteractions(garageRepository);
+    }
+
+}

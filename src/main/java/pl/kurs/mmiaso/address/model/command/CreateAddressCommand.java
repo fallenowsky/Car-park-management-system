@@ -1,10 +1,12 @@
 package pl.kurs.mmiaso.address.model.command;
 
 import jakarta.validation.constraints.NotBlank;
+import lombok.Builder;
 import lombok.Data;
 import pl.kurs.mmiaso.address.model.Address;
 
 @Data
+@Builder
 public class CreateAddressCommand {
     @NotBlank
     private String name;

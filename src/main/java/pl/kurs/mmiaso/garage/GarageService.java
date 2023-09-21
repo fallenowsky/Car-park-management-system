@@ -51,7 +51,6 @@ public class GarageService {
     private CarDto findMostExpensiveCar(GarageDto garageDto) {
         Car car = carRepository.findMostExpensiveCarByGarageId(garageDto.getId())
                 .orElse(new Car());
-//        return car.getFuel() == null ? CarDto.entityToFlatDto(car) : CarDto.entityToDtoWithFuel(car);
         return CarDto.entityToFlatDto(car);
     }
 
