@@ -102,11 +102,13 @@
 				<configuration>
 					<excludes>
 						<exclude>**/model/**</exclude>
+						<exclude>**/error/**</exclude>
+						<exclude>**/index/**</exclude>
 						<exclude>**/exceptions/**</exclude>
 						<exclude>**/controllers/**</exclude>
 						<exclude>**/advice/**</exclude>
-						<exclude>pl/szlify/coding/**/*Controller.*</exclude>
-						<exclude>pl/szlify/coding/CodingApplication.*</exclude>
+						<exclude>**/*Controller.*</exclude>
+						<exclude>**/CarParkAppTestApplication.*</exclude>
 					</excludes>
 				</configuration>
 				<executions>

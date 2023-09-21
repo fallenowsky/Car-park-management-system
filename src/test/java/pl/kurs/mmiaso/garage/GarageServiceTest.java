@@ -26,7 +26,6 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.fail;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -41,19 +40,13 @@ class GarageServiceTest {
     private ArgumentCaptor<Garage> garageArgumentCaptor;
     private Garage garage;
     private Garage garage2;
-    private GarageDto garageDto;
-    private GarageDto garage2Dto;
-    private long garageId;
 
     @BeforeEach
     public void init() {
         Address address = Address.builder().id(1L).name("fallenowsky").street("Zlota 44").zipCode("44-233")
                 .city("Warszawa").country("Poland").build();
-//        Address address2 = Address.builder().id(2L).name("quarkowsky").street("Srebrna 44").zipCode("43-255")
-//                .city("Warszawa").country("Poland").build();
         garage = Garage.builder().id(1L).capacity(3).isLpgAllowed(true).address(address).build();
         garage2 = Garage.builder().id(2L).capacity(5).isLpgAllowed(false).address(address).build();
-        garageId = 1L;
     }
 
     @Test

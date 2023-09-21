@@ -18,7 +18,6 @@ import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
-
 public class FuelService {
     private final FuelRepository fuelRepository;
 

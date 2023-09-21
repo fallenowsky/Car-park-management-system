@@ -18,7 +18,6 @@ import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
-
 public class GarageService {
     private final GarageRepository garageRepository;
     private final CarRepository carRepository;
