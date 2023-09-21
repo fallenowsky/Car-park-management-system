@@ -6,7 +6,6 @@ import pl.kurs.mmiaso.fuel.model.Fuel;
 
 @Data
 @Builder
-
 public class FuelDto {
     private Long id;
     private String name;

@@ -23,7 +23,7 @@ public class GarageDto {
     private double fillFactor;
 
 
-    public static GarageDto entityToDtoWithAddress(Garage garage) {
+    public static GarageDto entityToDto(Garage garage) {
         AddressDto addressDto = AddressDto.entityToDto(garage.getAddress());
         return GarageDto.
                 builder()

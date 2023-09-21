@@ -13,7 +13,6 @@ import pl.kurs.mmiaso.garage.model.command.CreateGarageCommand;
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/garages")
-
 public class GarageController {
     private final GarageService garageService;
 
@@ -29,7 +28,8 @@ public class GarageController {
     }
 
     @PostMapping("/create")
-    public String create(@Valid CreateGarageCommand garageCommand, @Valid CreateAddressCommand addressCommand) {
+    public String create(@Valid CreateGarageCommand garageCommand,
+                         @Valid CreateAddressCommand addressCommand) {
         garageService.save(garageCommand, addressCommand);
         return "redirect:/garages";
     }

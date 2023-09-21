@@ -1,7 +1,6 @@
 package pl.kurs.mmiaso.car;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import pl.kurs.mmiaso.car.model.Car;
@@ -33,7 +32,7 @@ public interface CarRepository extends JpaRepository<Car, Long> {
             "where C.garage.id = :id " +
             "group by F " +
             "order by fuelCount desc limit 1")
-    Optional<Fuel> findMostCommonFuelByGarageId(@Param("id") Long garageId);
+    Optional<Fuel> findMostusedFuelByGarageId(@Param("id") Long garageId);
 
     @Query("select count(C.id) from Car as C " +
             "where C.garage.id = :id")
