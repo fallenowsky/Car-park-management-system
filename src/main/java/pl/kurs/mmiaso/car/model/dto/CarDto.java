@@ -9,6 +9,7 @@ import java.math.BigDecimal;
 @Builder
 @Data
 public class CarDto {
+    private Long id;
     private String brand;
     private double width;
     private BigDecimal price;
@@ -16,6 +17,7 @@ public class CarDto {
 
     public static CarDto entityToDtoWithFuel(Car car) {
         return CarDto.builder()
+                .id(car.getId())
                 .brand(car.getBrand())
                 .width(car.getWidth())
                 .price(car.getPrice())
@@ -25,6 +27,7 @@ public class CarDto {
 
     public static CarDto entityToFlatDto(Car car) {
         return CarDto.builder()
+                .id(car.getId())
                 .brand(car.getBrand())
                 .width(car.getWidth())
                 .price(car.getPrice())

@@ -17,17 +17,9 @@ public interface CarRepository extends JpaRepository<Car, Long> {
             "order by C.price desc limit 1")
     Optional<Car> findMostExpensiveCarByGarageId(@Param("id") Long garageId);
 
-    @Query("select avg(C.price) from Car as C " +
-            "where C.garage.id = :id")
-    BigDecimal findGarageAverageCarsPriceByGarageId(@Param("id") Long garageId);
-
     @Query("select distinct C from Car as C " +
             "left join fetch C.fuel " +
             "where C.garage.id = :id")
     List<Car> findAllByGarageIdWithFuelJoin(@Param("id") Long garageId);
-
-    @Query("select count(C.id) from Car as C " +
-            "where C.garage.id = :id")
-    int findCarsAmountByGarageId(@Param("id") Long id);
 
 }

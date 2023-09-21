@@ -59,7 +59,7 @@ public class CarService {
 
     private void validateCarGarageConstrains(Garage garage, Car car) {
         int maxPlaces = garage.getCapacity();
-        int takenPlaces = carRepository.findCarsAmountByGarageId(garage.getId());
+        int takenPlaces = garageRepository.findGarageCarsAmountById(garage.getId());
 
         if (takenPlaces == maxPlaces) {
             throw new GarageIsFullWithCarsException("This garage is full!");

@@ -7,6 +7,7 @@ import pl.kurs.mmiaso.address.model.Address;
 @Builder
 @Data
 public class AddressDto {
+    private Long id;
     private String name;
     private String street;
     private String zipCode;
@@ -15,6 +16,7 @@ public class AddressDto {
 
     public static AddressDto entityToDto(Address address) {
         return AddressDto.builder()
+                .id(address.getId())
                 .name(address.getName())
                 .street(address.getStreet())
                 .zipCode(address.getZipCode())

@@ -66,10 +66,10 @@ class GarageServiceTest {
         when(fuelRepository.findMostUsedFuelByGarageId(garage2Id)).thenReturn(Optional.of(hybrid));
         when(carRepository.findMostExpensiveCarByGarageId(garageId)).thenReturn(Optional.of(bmw));
         when(carRepository.findMostExpensiveCarByGarageId(garage2Id)).thenReturn(Optional.of(audi));
-        when(carRepository.findGarageAverageCarsPriceByGarageId(garageId)).thenReturn(bmw.getPrice());
-        when(carRepository.findGarageAverageCarsPriceByGarageId(garage2Id)).thenReturn(audi.getPrice());
-        when(carRepository.findCarsAmountByGarageId(garageId)).thenReturn(2);
-        when(carRepository.findCarsAmountByGarageId(garage2Id)).thenReturn(3);
+        when(garageRepository.findGarageAverageCarsPriceById(garageId)).thenReturn(bmw.getPrice());
+        when(garageRepository.findGarageAverageCarsPriceById(garage2Id)).thenReturn(audi.getPrice());
+        when(garageRepository.findGarageCarsAmountById(garageId)).thenReturn(2);
+        when(garageRepository.findGarageCarsAmountById(garage2Id)).thenReturn(3);
 
         List<GarageDto> returned = service.findAll();
 
@@ -94,10 +94,10 @@ class GarageServiceTest {
         verify(fuelRepository).findMostUsedFuelByGarageId(garage2Id);
         verify(carRepository).findMostExpensiveCarByGarageId(garageId);
         verify(carRepository).findMostExpensiveCarByGarageId(garage2Id);
-        verify(carRepository).findGarageAverageCarsPriceByGarageId(garageId);
-        verify(carRepository).findGarageAverageCarsPriceByGarageId(garage2Id);
-        verify(carRepository).findCarsAmountByGarageId(garageId);
-        verify(carRepository).findCarsAmountByGarageId(garage2Id);
+        verify(garageRepository).findGarageAverageCarsPriceById(garageId);
+        verify(garageRepository).findGarageAverageCarsPriceById(garage2Id);
+        verify(garageRepository).findGarageCarsAmountById(garageId);
+        verify(garageRepository).findGarageCarsAmountById(garage2Id);
     }
 
     @Test

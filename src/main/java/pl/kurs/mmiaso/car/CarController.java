@@ -34,7 +34,7 @@ public class CarController {
     }
 
     @PostMapping("/create")
-    public String create(
+    public String save(
             @Valid @RequestBody CreateCarCommand command,
             @RequestParam("garageId") long garageId,
             @RequestParam("fuelId") long fuelId) {

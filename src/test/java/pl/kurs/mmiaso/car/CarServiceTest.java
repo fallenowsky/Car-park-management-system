@@ -77,12 +77,13 @@ class CarServiceTest {
     public void testSave_MethodInputsCorrect_ResultsInMockMethodCallAndCarCapture() {
         when(garageRepository.findWithLockingById(garageId)).thenReturn(Optional.of(garage));
         when(fuelRepository.findById(fuelId)).thenReturn(Optional.of(fuel));
-        when(carRepository.findCarsAmountByGarageId(garageId)).thenReturn(2);
+        when(garageRepository.findGarageCarsAmountById(garageId)).thenReturn(2);
 
         service.save(carCommand, garageId, fuelId);
 
         verify(garageRepository).findWithLockingById(garageId);
         verify(fuelRepository).findById(fuelId);
+        verify(garageRepository).findGarageCarsAmountById(garageId);
         verify(carRepository).save(carArgumentCaptor.capture());
         Car carCaptured = carArgumentCaptor.getValue();
         assertEquals(car.getBrand(), carCaptured.getBrand());
@@ -97,7 +98,7 @@ class CarServiceTest {
         String excMessage = "Exceeded max tries to save a car!";
         when(garageRepository.findWithLockingById(garageId)).thenReturn(Optional.of(garage));
         when(fuelRepository.findById(fuelId)).thenReturn(Optional.of(fuel));
-        when(carRepository.findCarsAmountByGarageId(garageId)).thenReturn(2);
+        when(garageRepository.findGarageCarsAmountById(garageId)).thenReturn(2);
         when(carRepository.save(any(Car.class))).thenThrow(OptimisticLockException.class);
 
         assertThatExceptionOfType(MaxOptimisticTriesExceededException.class)
@@ -106,7 +107,7 @@ class CarServiceTest {
 
         verify(garageRepository, atMost(3)).findWithLockingById(garageId);
         verify(fuelRepository, atMost(3)).findById(fuelId);
-        verify(carRepository, atMost(3)).findCarsAmountByGarageId(garageId);
+        verify(garageRepository, atMost(3)).findGarageCarsAmountById(garageId);
         verify(carRepository, atMost(3)).save(any(Car.class));
     }
 
@@ -115,7 +116,7 @@ class CarServiceTest {
         String excMessage = "This garage is full!";
         when(garageRepository.findWithLockingById(garageId)).thenReturn(Optional.of(garage));
         when(fuelRepository.findById(fuelId)).thenReturn(Optional.of(fuel));
-        when(carRepository.findCarsAmountByGarageId(garageId)).thenReturn(3);
+        when(garageRepository.findGarageCarsAmountById(garageId)).thenReturn(3);
 
         assertThatExceptionOfType(GarageIsFullWithCarsException.class)
                 .isThrownBy(() -> service.save(carCommand, garageId, fuelId))
@@ -123,7 +124,7 @@ class CarServiceTest {
 
         verify(garageRepository).findWithLockingById(garageId);
         verify(fuelRepository).findById(fuelId);
-        verify(carRepository).findCarsAmountByGarageId(garageId);
+        verify(garageRepository).findGarageCarsAmountById(garageId);
         verifyNoMoreInteractions(carRepository, garageRepository, fuelRepository);
     }
 
@@ -133,7 +134,7 @@ class CarServiceTest {
         when(garageRepository.findWithLockingById(garageId)).thenReturn(Optional.of(garage));
         when(fuelRepository.findById(fuelId)).thenReturn(Optional.of(fuel));
         fuel.setName("Lpg");
-        when(carRepository.findCarsAmountByGarageId(garageId)).thenReturn(2);
+        when(garageRepository.findGarageCarsAmountById(garageId)).thenReturn(2);
 
         assertThatExceptionOfType(GarageNotHandleLpgException.class)
                 .isThrownBy(() -> service.save(carCommand, garageId, fuelId))
@@ -141,7 +142,7 @@ class CarServiceTest {
 
         verify(garageRepository).findWithLockingById(garageId);
         verify(fuelRepository).findById(fuelId);
-        verify(carRepository).findCarsAmountByGarageId(garageId);
+        verify(garageRepository).findGarageCarsAmountById(garageId);
         verifyNoMoreInteractions(carRepository, garageRepository, fuelRepository);
     }
 
@@ -150,7 +151,7 @@ class CarServiceTest {
         String excMessage = "Garage place is too narrow for your car!";
         when(garageRepository.findWithLockingById(garageId)).thenReturn(Optional.of(garage));
         when(fuelRepository.findById(fuelId)).thenReturn(Optional.of(fuel));
-        when(carRepository.findCarsAmountByGarageId(garageId)).thenReturn(2);
+        when(garageRepository.findGarageCarsAmountById(garageId)).thenReturn(2);
         carCommand.setWidth(2.51);
 
         assertThatExceptionOfType(GaragePlaceIsTooNarrowException.class)
@@ -159,7 +160,7 @@ class CarServiceTest {
 
         verify(garageRepository).findWithLockingById(garageId);
         verify(fuelRepository).findById(fuelId);
-        verify(carRepository).findCarsAmountByGarageId(garageId);
+        verify(garageRepository).findGarageCarsAmountById(garageId);
         verifyNoMoreInteractions(carRepository, garageRepository, fuelRepository);
     }
 

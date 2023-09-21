@@ -39,8 +39,8 @@ public class GarageService {
         for (GarageDto garageDto : garageDtos) {
             garageDto.setMostUsedFuel(findMostUsedFuel(garageDto.getId()));
             garageDto.setMostExpensiveCar(findMostExpensiveCar(garageDto.getId()));
-            garageDto.setAvgCarsAmount(carRepository.findGarageAverageCarsPriceByGarageId(garageDto.getId()));
-            int garageCarsAmount = carRepository.findCarsAmountByGarageId(garageDto.getId());
+            garageDto.setAvgCarsAmount(garageRepository.findGarageAverageCarsPriceById(garageDto.getId()));
+            int garageCarsAmount = garageRepository.findGarageCarsAmountById(garageDto.getId());
             garageDto.setFillFactor(((double) garageCarsAmount / garageDto.getCapacity()) * 100);
         }
         return garageDtos;

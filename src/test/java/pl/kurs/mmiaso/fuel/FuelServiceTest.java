@@ -107,11 +107,4 @@ class FuelServiceTest {
         Fuel fuelCaptured = fuelArgumentCaptor.getValue();
         assertEquals(command.getName(), fuelCaptured.getName());
     }
-
-//    @Test
-//    public void testSaveInitialFuels_ResultsInMockMethodCall() {
-//
-//        service.saveInitialFuels();
-//
-//    }
 }
