@@ -13,6 +13,7 @@ import pl.kurs.mmiaso.address.model.command.CreateAddressCommand;
 import pl.kurs.mmiaso.car.CarRepository;
 import pl.kurs.mmiaso.car.model.Car;
 import pl.kurs.mmiaso.car.model.dto.CarDto;
+import pl.kurs.mmiaso.fuel.FuelRepository;
 import pl.kurs.mmiaso.fuel.model.Fuel;
 import pl.kurs.mmiaso.fuel.model.dto.FuelDto;
 import pl.kurs.mmiaso.garage.model.Garage;
@@ -34,6 +35,8 @@ class GarageServiceTest {
     private GarageRepository garageRepository;
     @Mock
     private CarRepository carRepository;
+    @Mock
+    private FuelRepository fuelRepository;
     @InjectMocks
     private GarageService service;
     @Captor
@@ -59,8 +62,8 @@ class GarageServiceTest {
         Car bmw = Car.builder().brand("BMW").width(2.7).price(BigDecimal.valueOf(29292.1)).build();
         Car audi = Car.builder().brand("AUDI").width(2.2).price(BigDecimal.valueOf(54323.2)).build();
         when(garageRepository.findALlWithAddressJoin()).thenReturn(garages);
-        when(carRepository.findMostUsedFuelByGarageId(garageId)).thenReturn(Optional.of(petrol));
-        when(carRepository.findMostUsedFuelByGarageId(garage2Id)).thenReturn(Optional.of(hybrid));
+        when(fuelRepository.findMostUsedFuelByGarageId(garageId)).thenReturn(Optional.of(petrol));
+        when(fuelRepository.findMostUsedFuelByGarageId(garage2Id)).thenReturn(Optional.of(hybrid));
         when(carRepository.findMostExpensiveCarByGarageId(garageId)).thenReturn(Optional.of(bmw));
         when(carRepository.findMostExpensiveCarByGarageId(garage2Id)).thenReturn(Optional.of(audi));
         when(carRepository.findGarageAverageCarsPriceByGarageId(garageId)).thenReturn(bmw.getPrice());
@@ -87,8 +90,8 @@ class GarageServiceTest {
         }
         verify(garageRepository).findALlWithAddressJoin();
         verifyNoMoreInteractions(garageRepository);
-        verify(carRepository).findMostUsedFuelByGarageId(garageId);
-        verify(carRepository).findMostUsedFuelByGarageId(garage2Id);
+        verify(fuelRepository).findMostUsedFuelByGarageId(garageId);
+        verify(fuelRepository).findMostUsedFuelByGarageId(garage2Id);
         verify(carRepository).findMostExpensiveCarByGarageId(garageId);
         verify(carRepository).findMostExpensiveCarByGarageId(garage2Id);
         verify(carRepository).findGarageAverageCarsPriceByGarageId(garageId);

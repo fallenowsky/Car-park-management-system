@@ -7,6 +7,7 @@ import pl.kurs.mmiaso.address.model.command.CreateAddressCommand;
 import pl.kurs.mmiaso.car.CarRepository;
 import pl.kurs.mmiaso.car.model.Car;
 import pl.kurs.mmiaso.car.model.dto.CarDto;
+import pl.kurs.mmiaso.fuel.FuelRepository;
 import pl.kurs.mmiaso.fuel.model.Fuel;
 import pl.kurs.mmiaso.fuel.model.dto.FuelDto;
 import pl.kurs.mmiaso.garage.model.Garage;
@@ -21,6 +22,7 @@ import java.util.Objects;
 public class GarageService {
     private final GarageRepository garageRepository;
     private final CarRepository carRepository;
+    private final FuelRepository fuelRepository;
 
     /*generuje wieksza ilosc zapytan sql, ale znacznie oszczedzam pamiec i czas odpowiedzi
      * pobieram tylko to co mi jest potrzebne, bez powiazanych encji
@@ -45,7 +47,7 @@ public class GarageService {
     }
 
     private FuelDto findMostUsedFuel(long garageId) {
-        Fuel fuel = carRepository.findMostUsedFuelByGarageId(garageId)
+        Fuel fuel = fuelRepository.findMostUsedFuelByGarageId(garageId)
                 .orElse(new Fuel());
         return FuelDto.entityToDto(fuel);
     }

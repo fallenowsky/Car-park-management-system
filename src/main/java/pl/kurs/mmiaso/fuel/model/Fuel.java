@@ -1,10 +1,10 @@
 package pl.kurs.mmiaso.fuel.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.*;
+import pl.kurs.mmiaso.car.model.Car;
+
+import java.util.Set;
 
 @Entity
 @Builder
@@ -18,5 +18,8 @@ public class Fuel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
+
+    @OneToMany(mappedBy = "fuel")
+    private Set<Car> cars;
 
 }

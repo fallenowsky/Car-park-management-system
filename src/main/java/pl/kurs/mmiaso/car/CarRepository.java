@@ -26,14 +26,6 @@ public interface CarRepository extends JpaRepository<Car, Long> {
             "where C.garage.id = :id")
     List<Car> findAllByGarageIdWithFuelJoin(@Param("id") Long garageId);
 
-    @Query("select F, count(F.id) as fuelCount " +
-            "from Car as C " +
-            "join C.fuel as F " +
-            "where C.garage.id = :id " +
-            "group by F " +
-            "order by fuelCount desc limit 1")
-    Optional<Fuel> findMostUsedFuelByGarageId(@Param("id") Long garageId);
-
     @Query("select count(C.id) from Car as C " +
             "where C.garage.id = :id")
     int findCarsAmountByGarageId(@Param("id") Long id);

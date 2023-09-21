@@ -42,9 +42,9 @@ public class FuelService {
 
     @PostConstruct
     public void saveInitialFuels() {
-        Fuel petrol = new Fuel(1L, "Petrol");
-        Fuel hybrid = new Fuel(2L, "Hybrid");
-        Fuel electric = new Fuel(3L, "Electric");
+        Fuel petrol = Fuel.builder().name("Petrol").build();
+        Fuel hybrid = Fuel.builder().name("Hybrid").build();
+        Fuel electric = Fuel.builder().name("Electric").build();
 
         fuelRepository.saveAll(Arrays.asList(petrol, hybrid, electric));
     }
