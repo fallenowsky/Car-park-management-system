@@ -7,13 +7,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import pl.kurs.mmiaso.address.model.dto.AddressDto;
-import pl.kurs.mmiaso.garage.model.dto.GarageDto;
+import pl.kurs.mmiaso.address.model.command.CreateAddressCommand;
+import pl.kurs.mmiaso.garage.model.command.CreateGarageCommand;
 
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/garages")
-
 public class GarageController {
     private final GarageService garageService;
 
@@ -29,8 +28,9 @@ public class GarageController {
     }
 
     @PostMapping("/create")
-    public String create(@Valid GarageDto garageDto, @Valid AddressDto addressDto) {
-        garageService.save(garageDto, addressDto);
+    public String create(@Valid CreateGarageCommand garageCommand,
+                         @Valid CreateAddressCommand addressCommand) {
+        garageService.save(garageCommand, addressCommand);
         return "redirect:/garages";
     }
 

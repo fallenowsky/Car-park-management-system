@@ -14,7 +14,6 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name="garages")
-
 public class Garage {
 
     @Id
@@ -24,6 +23,9 @@ public class Garage {
     private int capacity;
     private boolean isLpgAllowed;
     private double placeWidth;
+
+    @Version
+    private Long version;
 
     @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
     private Address address;

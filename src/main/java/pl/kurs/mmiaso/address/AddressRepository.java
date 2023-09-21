@@ -13,5 +13,5 @@ public interface AddressRepository extends JpaRepository<Address, Long> {
     @Query("select A from Address as A " +
             "inner join A.garages as G " +
             "where G.id = :id")
-    Optional<Address> findByGarageId(@Param("id") long garageId);
+    Optional<Address> findByGarageId(@Param("id") Long garageId);
 }

@@ -6,9 +6,11 @@ import org.springframework.stereotype.Service;
 import pl.kurs.mmiaso.fuel.exceptions.ThisFuelAlreadyExists;
 import pl.kurs.mmiaso.fuel.model.Fuel;
 import pl.kurs.mmiaso.fuel.model.dto.FuelDto;
+import pl.kurs.mmiaso.fuel.model.command.CreateFuelCommand;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 /* podczas startu aplikacji dodaje kilka defaultowych paliw jakie apka obsluguje
  *  wychodze jednak z zalozenia, że moze powstac jakies nowe paliwo lub moge chciec obslugiwac diesla
@@ -16,16 +18,18 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-
 public class FuelService {
     private final FuelRepository fuelRepository;
 
-    public List<Fuel> findAll() {
-        return fuelRepository.findAll();
+    public List<FuelDto> findAll() {
+        return fuelRepository.findAll().stream()
+                .filter(Objects::nonNull)
+                .map(FuelDto::entityToDto)
+                .toList();
     }
 
-    public void save(FuelDto fuelDto) {
-        Fuel newFuel = FuelDto.dtoToEntity(fuelDto);
+    public void save(CreateFuelCommand command) {
+        Fuel newFuel = CreateFuelCommand.commandToEntity(command);
         List<Fuel> fuels = fuelRepository.findAll();
 
         for (Fuel fuel : fuels) {
@@ -38,9 +42,9 @@ public class FuelService {
 
     @PostConstruct
     public void saveInitialFuels() {
-        Fuel petrol = new Fuel(1L, "Petrol");
-        Fuel hybrid = new Fuel(2L, "Hybrid");
-        Fuel electric = new Fuel(3L, "Electric");
+        Fuel petrol = Fuel.builder().name("Petrol").build();
+        Fuel hybrid = Fuel.builder().name("Hybrid").build();
+        Fuel electric = Fuel.builder().name("Electric").build();
 
         fuelRepository.saveAll(Arrays.asList(petrol, hybrid, electric));
     }

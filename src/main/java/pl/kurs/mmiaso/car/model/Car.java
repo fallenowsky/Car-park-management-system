@@ -14,7 +14,6 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "cars")
-
 public class Car {
 
     @Id
@@ -24,8 +23,6 @@ public class Car {
     private String brand;
     private double width;
     private BigDecimal price;
-
-    /* relacje z Fuel unidirectional. zakładam, że paliwo nie musi wiedzieć w jakich autach jest uzywane */
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Fuel fuel;
