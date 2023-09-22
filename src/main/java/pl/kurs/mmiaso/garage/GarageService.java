@@ -87,7 +87,7 @@ public class GarageService {
                 .orElseThrow(() -> new EntityNotFoundException(
                         MessageFormat.format("Garage with id={0} not found", garageId)));
 
-        Car car = carRepository.findWithLockingById(carId)      // gdyby ktos w miedzy czasie usunal to auto
+        Car car = carRepository.findByIdWithFuelJoin(carId)      // gdyby ktos w miedzy czasie usunal to auto
                 .orElseThrow(() -> new EntityNotFoundException(
                         MessageFormat.format("Car with id={0} not found", carId)));
 
@@ -96,7 +96,7 @@ public class GarageService {
 
         // tu leci  wyjatek OptimisticLockException gdy version obiektu i w bd sie nie zgadzaja
         // OptimisticLockException jest typu unchecked wiec jest rollback transakcji
-        // lapie go w kontrolerze i renderuje 429
+        // lapie go w kontrolerze i renderuje 429. jesli nie ma to commit, czyli version sa takie same
         garageRepository.save(garage);
     }
 

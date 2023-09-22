@@ -33,4 +33,8 @@ public class Garage {
     @OneToMany(mappedBy = "garage")
     private Set<Car> cars;
 
+    public void addCar(Car car) {
+        getCars().add(car);
+        car.setGarage(this);
+    }
 }

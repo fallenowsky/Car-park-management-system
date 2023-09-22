@@ -12,7 +12,7 @@ import java.util.Optional;
 
 public interface CarRepository extends JpaRepository<Car, Long> {
 
-    @Lock(LockModeType.OPTIMISTIC_FORCE_INCREMENT)
+//    @Lock(LockModeType.OPTIMISTIC_FORCE_INCREMENT)
     Optional<Car> findWithLockingById(Long carId);
 
     @Query("select C from Car as C " +
