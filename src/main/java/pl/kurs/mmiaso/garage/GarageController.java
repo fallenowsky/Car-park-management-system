@@ -1,5 +1,6 @@
 package pl.kurs.mmiaso.garage;
 
+import jakarta.persistence.OptimisticLockException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -42,7 +43,7 @@ public class GarageController {
         try {
             garageService.assignCar(garageId, carId);
             return "redirect:/garages";
-        } catch (MaxOptimisticTriesExceededException e) {
+        } catch (OptimisticLockException e) {
             return "error/429";
         }
     }

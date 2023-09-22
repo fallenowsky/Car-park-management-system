@@ -13,28 +13,7 @@
         text-align: center;
     }
 </style>
-<script>
-    document.addEventListener("DOMContentLoaded", () => {
-        watchBtns();
-    })
-
-    const watchBtns = () => {
-        if (document.querySelector("thead")
-            .childElementCount > 0) {
-            document.querySelectorAll(".add-to-garage-btn")
-                .forEach(btn => {
-                    btn.addEventListener("click", ev => {
-                        window.location.replace(`/cars/add-car?carId=${ev.target.dataset.id}`);
-                    })
-                })
-        }
-        document.querySelector(".add-car-btn")
-            .addEventListener("click", () => {
-                window.location.replace(`/cars/add`);
-            })
-    }
-
-</script>
+<script src="/cars/showAll.js"></script>
 <body>
 <h3>List of cars:</h3>
 <h5 th:if="${cars.isEmpty()}" th:text="${'Cars list is empty'}"></h5>
@@ -46,7 +25,7 @@
         <th>Width:</th>
         <th>Fuel type:</th>
         <th>Price:</th>
-<!--        <th>Garage:</th>-->
+<!--                <th>Garage:</th>-->
     </tr>
     </thead>
     <tbody>
@@ -56,9 +35,10 @@
         <td class="data" th:text="${car.width}"></td>
         <td class="data" th:text="${car.fuelName}"></td>
         <td class="data" th:text="${#numbers.formatDecimal(car.price,2,2)}"></td>
-<!--        <td class="data" th:text="${}"></td>-->
+        <!--        <td class="data" th:text="${car.garageName != null ? cat.garageName : 'Not assigned'}"></td>-->
         <td>
-            <button class="add-to-garage-btn" th:data-id="${car.id}">ADD TO GARAGE</button>
+            <button class="add-to-garage-btn" th:data-id="${car.id}"
+                    th:text="${'ADD TO GARAGE'}"></button>
         </td>
     </tr>
     </tbody>
@@ -68,9 +48,9 @@
 <button class="add-car-btn">ADD CAR</button>
 <br> <br>
 <ul>
-    <li><a th:href="@{/}">HOME PAGE</a></li>
     <li><a th:href="@{/garages}">GARAGES</a></li>
     <li><a th:href="@{/fuels}">FUELS</a></li>
+    <li><a th:href="@{/}">HOME PAGE</a></li>
 </ul>
 </body>
 </html>

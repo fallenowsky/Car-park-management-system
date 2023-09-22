@@ -4,6 +4,7 @@ import jakarta.persistence.EntityNotFoundException;
 import jakarta.persistence.OptimisticLockException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import org.springframework.stereotype.Service;
 import pl.kurs.mmiaso.address.model.Address;
 import pl.kurs.mmiaso.address.model.command.CreateAddressCommand;
@@ -82,28 +83,21 @@ public class GarageService {
 
     @Transactional
     public void assignCar(long garageId, long carId) {
-        int tries = 2;
+        Garage garage = garageRepository.findWithLockingById(garageId) // do pilnowania capacity
+                .orElseThrow(() -> new EntityNotFoundException(
+                        MessageFormat.format("Garage with id={0} not found", garageId)));
 
-        while (tries >= 0) {
-            Garage garage = garageRepository.findWithLockingById(garageId) // do pilnowania capacity
-                    .orElseThrow(() -> new EntityNotFoundException(
-                            MessageFormat.format("Garage with id={0} not found", garageId)));
+        Car car = carRepository.findWithLockingById(carId)      // gdyby ktos w miedzy czasie usunal to auto
+                .orElseThrow(() -> new EntityNotFoundException(
+                        MessageFormat.format("Car with id={0} not found", carId)));
 
-            Car car = carRepository.findWithLockingById(carId)      // gdyby ktos w miedzy czasie usunal to auto
-                    .orElseThrow(() -> new EntityNotFoundException(
-                            MessageFormat.format("Car with id={0} not found", carId)));
+        validateCarGarageConstrains(garage, car);
+        car.setGarage(garage);
 
-            validateCarGarageConstrains(garage, car);
-            car.setGarage(garage);
-
-            try {
-                garageRepository.save(garage);
-                return;
-            } catch (OptimisticLockException e) {
-                tries--;
-            }
-        }
-        throw new MaxOptimisticTriesExceededException("Exceeded max tries to save a car!");
+        // tu leci  wyjatek OptimisticLockException gdy version obiektu i w bd sie nie zgadzaja
+        // OptimisticLockException jest typu unchecked wiec jest rollback transakcji
+        // lapie go w kontrolerze i renderuje 429
+        garageRepository.save(garage);
     }
 
     private void validateCarGarageConstrains(Garage garage, Car car) {
