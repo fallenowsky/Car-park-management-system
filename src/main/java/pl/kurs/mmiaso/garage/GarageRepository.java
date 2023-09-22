@@ -23,7 +23,7 @@ public interface GarageRepository extends JpaRepository<Garage, Long> {
     @Query("select avg(C.price) from Garage as G " +
             "inner join G.cars as C " +
             "where G.id = :id")
-    BigDecimal findGarageAverageCarsPriceById(@Param("id") Long garageId);
+    BigDecimal findGarageAverageCarsPriceById(@Param("id") Long id);
 
     @Query("select count(C.id) from Garage as G " +
             "inner join G.cars as C " +

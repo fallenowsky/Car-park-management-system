@@ -43,8 +43,8 @@
             th:text="${garage.mostExpensiveCar.brand == null? 'Empty garage' :
             garage.mostExpensiveCar.brand + ', ' + garage.mostExpensiveCar.price}"></td>
         <td class="data" th:text="${garage.avgCarsAmount != null ?
-         #numbers.formatDecimal(garage.avgCarsAmount,2,2) : '0.0'}"></td>
-        <td class="data" th:text="${#numbers.formatDecimal(garage.fillFactor,2,2)}"></td>
+         #numbers.formatDecimal(garage.avgCarsAmount,1,2) : '0.0'}"></td>
+        <td class="data" th:text="${#numbers.formatDecimal(garage.fillFactor,1,2)}"></td>
         <td class="data">
             <button class="show-cars-btn" th:data-id="${garage.id}">SHOW CARS</button>
         </td>

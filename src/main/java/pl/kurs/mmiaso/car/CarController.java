@@ -5,13 +5,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import pl.kurs.mmiaso.car.model.command.CreateCarCommand;
 import pl.kurs.mmiaso.car.model.dto.CarDto;
 import pl.kurs.mmiaso.fuel.FuelService;
+import pl.kurs.mmiaso.garage.GarageService;
 
 import java.util.List;
 
@@ -21,6 +19,7 @@ import java.util.List;
 public class CarController {
     private final CarService carService;
     private final FuelService fuelService;
+    private final GarageService garageService;
 
     @GetMapping
     public String findAll(Model model) {
@@ -30,7 +29,6 @@ public class CarController {
 
     @GetMapping("/add")
     public String renderAddForm(Model model) {
-//        model.addAttribute("garageId", id);
         model.addAttribute("fuels", fuelService.findAll());
         return "car/create";
     }
@@ -42,9 +40,17 @@ public class CarController {
     }
 
     @PostMapping("/add")
-    public String save(@Valid CreateCarCommand command, @RequestParam("fuelId") long fuelId) {
+    public String save(@Valid @RequestBody CreateCarCommand command,
+                       @RequestParam("fuelId") long fuelId) {
         carService.save(command, fuelId);
         return "redirect:/cars";
+    }
+
+    @GetMapping("/add-car")
+    public String renderAddCarToGarageForm(@RequestParam("carId") long carId, Model model) {
+        model.addAttribute("garages", garageService.findAll());
+        model.addAttribute("car", carService.findByIdWIthFuelJoin(carId));
+        return "car/assignCar";
     }
 
 

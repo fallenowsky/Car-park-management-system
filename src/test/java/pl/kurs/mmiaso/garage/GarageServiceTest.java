@@ -71,7 +71,7 @@ class GarageServiceTest {
         when(garageRepository.findGarageCarsAmountById(garageId)).thenReturn(2);
         when(garageRepository.findGarageCarsAmountById(garage2Id)).thenReturn(3);
 
-        List<GarageDto> returned = service.findAll();
+        List<GarageDto> returned = service.findAllWithDetails();
 
         for (int i = 0; i < returned.size(); i++) {
             GarageDto garage = returned.get(i);
@@ -102,7 +102,7 @@ class GarageServiceTest {
 
     @Test
     public void testFindAll_GaragesNotFound_ResultsInEmptyListReturnedAndNoLoopRepeats() {
-        List<GarageDto> returned = service.findAll();
+        List<GarageDto> returned = service.findAllWithDetails();
 
         assertEquals(Collections.emptyList(), returned);
         verify(garageRepository).findALlWithAddressJoin();

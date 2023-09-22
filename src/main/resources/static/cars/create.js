@@ -1,56 +1,45 @@
 document.addEventListener("DOMContentLoaded", () => {
-    sendForm();
-    watchBtn();
+    watchBtns();
+    validateFuelSelected();
 })
 
-const sendForm = () => {
+const validateFuelSelected = () => {
     document.getElementById("form")
         .addEventListener("submit", ev => {
             ev.preventDefault();
 
-            const width = parseFloat(document.getElementById("width").value);
-            const garageId = parseFloat(document.getElementById("garageId").value);
-            const price = parseFloat(document.getElementById("price").value);
-            const brand = document.getElementById("brand").value;
-            let fuelId = document.getElementById("fuelId").value;
+            const fuelId = document.getElementById("fuelId").value;
 
             if (isNaN(fuelId)) {
                 window.alert("Fuel not selected! Select a fuel first!");
                 return;
-            } else {
-                fuelId = parseFloat(fuelId);
             }
 
-            fetch(`/cars/create?garageId=${garageId}&fuelId=${fuelId}`, {
+            const brand = document.getElementById("brand").value;
+            const width = parseFloat(document.getElementById("width").value);
+            const price = parseFloat(document.getElementById("price").value);
+
+            fetch(`/cars/add?fuelId=${fuelId}`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
                 },
                 body: JSON.stringify({
-                    width: width,
                     brand: brand,
+                    width: width,
                     price: price
                 })
+            }).then(res => {
+                if (res.ok) {
+                    window.location.replace("/cars");
+                }
             })
-                .then(res => {
-                    if (!res.ok) {
-                        return res.json();
-                    }
-                    window.location.replace("/garages");
-                })
-                .then(body => {
-                    if (body)
-                        window.alert(body.message);
-                })
-                .catch(err => {
-                    throw new Error(err);
-                })
-        })
+        });
 }
 
-const watchBtn = () => {
+const watchBtns = () => {
     document.querySelector(".btn-bck")
         .addEventListener("click", () => {
-            window.history.back();
+            window.location.replace(`/cars`);
         })
 }

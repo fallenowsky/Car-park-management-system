@@ -7,7 +7,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import pl.kurs.mmiaso.address.model.command.CreateAddressCommand;
+import pl.kurs.mmiaso.car.exceptions.MaxOptimisticTriesExceededException;
 import pl.kurs.mmiaso.garage.model.command.CreateGarageCommand;
 
 @Controller
@@ -18,7 +20,7 @@ public class GarageController {
 
     @GetMapping
     public String renderAllGarages(Model model) {
-        model.addAttribute("garages", garageService.findAll());
+        model.addAttribute("garages", garageService.findAllWithDetails());
         return "garage/showAll";
     }
 
@@ -34,4 +36,14 @@ public class GarageController {
         return "redirect:/garages";
     }
 
+    @GetMapping("/add-car")
+    public String assignCar(@RequestParam("carId") long carId,
+                            @RequestParam("garageId") long garageId) {
+        try {
+            garageService.assignCar(garageId, carId);
+            return "redirect:/garages";
+        } catch (MaxOptimisticTriesExceededException e) {
+            return "error/429";
+        }
+    }
 }

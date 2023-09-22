@@ -24,6 +24,9 @@ public class Car {
     private double width;
     private BigDecimal price;
 
+    @Version
+    public Long version;
+
     @ManyToOne(fetch = FetchType.LAZY)
     private Fuel fuel;
 

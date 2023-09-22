@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Add car to garage</title>
+</head>
+<script src="/cars/assignCar.js"></script>
+<body>
+<h2>Assign a car to one of available garages:</h2>
+<form id="form">
+    <input id="carId" type="hidden" th:value="${car.id}">
+    <p th:text="${'Choosen car:    ' + car.brand + ' ' + car.fuelName  + ' ' + car.price + ' PLN'}"></p>
+    <br>
+    <div>
+        <label for="garageId">Select garage:</label>
+        <select name="garageId" id="garageId" required>
+            <option disabled selected>Select_garage</option>
+            <option th:each="garage : ${garages}" th:text="${garage.addressDto.name}" th:value="${garage.id}"></option>
+        </select> <br> <br>
+    </div>
+    <br> <br>
+    <button type="reset">RESET</button>
+    <button class="btn-submit" type="submit">ADD</button>
+    <button class="btn-bck">BACK</button>
+</form>
+</body>
+</html>

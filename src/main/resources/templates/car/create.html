@@ -7,21 +7,10 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Add a car</title>
 </head>
-<script>
-    document.addEventListener("DOMContentLoaded", () => {
-        watchBtns();
-    })
-
-    const watchBtns = () => {
-        document.querySelector(".btn-bck")
-            .addEventListener("click", () => {
-                window.location.replace(`/cars`);
-            })
-    }
-</script>
+<script src="/cars/create.js"></script>
 <body>
 <h2>Add a new car:</h2>
-<form action="/cars/add" method="post">
+<form id="form">
     <div>
         <label for="brand">Brand:</label>
         <input type="text" id="brand" name="brand" placeholder="car_brand" required/>

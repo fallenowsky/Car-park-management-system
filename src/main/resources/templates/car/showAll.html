@@ -13,19 +13,24 @@
         text-align: center;
     }
 </style>
-<script defer>
+<script>
     document.addEventListener("DOMContentLoaded", () => {
         watchBtns();
     })
 
     const watchBtns = () => {
-        document.querySelector(".add-to-garage-btn")
-            .addEventListener("click", ev => {
-                window.location.replace(`/garages/add-to-garage?carId=${ev.target.dataset.id}`);
-            })
+        if (document.querySelector("thead")
+            .childElementCount > 0) {
+            document.querySelectorAll(".add-to-garage-btn")
+                .forEach(btn => {
+                    btn.addEventListener("click", ev => {
+                        window.location.replace(`/cars/add-car?carId=${ev.target.dataset.id}`);
+                    })
+                })
+        }
         document.querySelector(".add-car-btn")
             .addEventListener("click", () => {
-                window.location.replace("/cars/add");
+                window.location.replace(`/cars/add`);
             })
     }
 
@@ -41,6 +46,7 @@
         <th>Width:</th>
         <th>Fuel type:</th>
         <th>Price:</th>
+<!--        <th>Garage:</th>-->
     </tr>
     </thead>
     <tbody>
@@ -50,6 +56,7 @@
         <td class="data" th:text="${car.width}"></td>
         <td class="data" th:text="${car.fuelName}"></td>
         <td class="data" th:text="${#numbers.formatDecimal(car.price,2,2)}"></td>
+<!--        <td class="data" th:text="${}"></td>-->
         <td>
             <button class="add-to-garage-btn" th:data-id="${car.id}">ADD TO GARAGE</button>
         </td>
