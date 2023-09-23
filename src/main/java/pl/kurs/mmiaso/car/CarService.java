@@ -1,6 +1,7 @@
 package pl.kurs.mmiaso.car;
 
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import pl.kurs.mmiaso.car.model.Car;
@@ -20,8 +21,8 @@ public class CarService {
 
 
     public List<CarDto> findAllWithFuelJoin() {
-        return carRepository.findAllWithFuelJoin().stream()
-                .map(CarDto::entityToDtoWithFuel)
+        return carRepository.findAllWithFuelJoinAndGarageAddressJoin().stream()
+                .map(CarDto::entityToDtoWithFuelAndGarage)
                 .toList();
     }
 
@@ -33,13 +34,13 @@ public class CarService {
         return CarDto.entityToDtoWithFuel(car);
     }
 
+    @Transactional
     public void save(CreateCarCommand command, long fuelId) {
         Car car = CreateCarCommand.commandToEntity(command);
 
         Fuel fuel = fuelRepository.findById(fuelId)
                 .orElseThrow(() -> new EntityNotFoundException(
                         MessageFormat.format("Fuel with id={0] not found", fuelId)));
-
         car.setFuel(fuel);
         carRepository.save(car);
     }

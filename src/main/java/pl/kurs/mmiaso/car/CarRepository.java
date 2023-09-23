@@ -1,8 +1,6 @@
 package pl.kurs.mmiaso.car;
 
-import jakarta.persistence.LockModeType;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Lock;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import pl.kurs.mmiaso.car.model.Car;
@@ -12,7 +10,7 @@ import java.util.Optional;
 
 public interface CarRepository extends JpaRepository<Car, Long> {
 
-//    @Lock(LockModeType.OPTIMISTIC_FORCE_INCREMENT)
+    //    @Lock(LockModeType.OPTIMISTIC_FORCE_INCREMENT)
     Optional<Car> findWithLockingById(Long carId);
 
     @Query("select C from Car as C " +
@@ -21,16 +19,18 @@ public interface CarRepository extends JpaRepository<Car, Long> {
     Optional<Car> findMostExpensiveCarByGarageId(@Param("id") Long garageId);
 
     @Query("select distinct C from Car as C " +
-            "left join fetch C.fuel " +
+            "join fetch C.fuel " +
             "where C.garage.id = :id")
     List<Car> findAllByGarageIdWithFuelJoin(@Param("id") Long garageId);
 
     @Query("select distinct C from Car as C " +
-            "left join fetch C.fuel ")
-    List<Car> findAllWithFuelJoin();
+            "join fetch C.fuel " +
+            "left join fetch C.garage as G " +
+            "left join fetch G.address")
+    List<Car> findAllWithFuelJoinAndGarageAddressJoin();
 
     @Query("select C from Car as C " +
-            "left join fetch C.fuel " +
+            "join fetch C.fuel " +
             "where C.id = :id")
     Optional<Car> findByIdWithFuelJoin(@Param("id") long id);
 }

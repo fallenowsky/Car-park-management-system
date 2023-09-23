@@ -17,7 +17,7 @@ public interface GarageRepository extends JpaRepository<Garage, Long> {
     Optional<Garage> findWithLockingById(Long id);
 
     @Query("select distinct G from Garage as G " +
-            "left join fetch G.address ")
+            "join fetch G.address ")
     List<Garage> findALlWithAddressJoin();
 
     @Query("select avg(C.price) from Garage as G " +
@@ -29,5 +29,4 @@ public interface GarageRepository extends JpaRepository<Garage, Long> {
             "inner join G.cars as C " +
             "where G.id = :id")
     int findGarageCarsAmountById(@Param("id") Long id);
-
 }

@@ -1,10 +1,8 @@
 package pl.kurs.mmiaso.garage;
 
 import jakarta.persistence.EntityNotFoundException;
-import jakarta.persistence.OptimisticLockException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import lombok.SneakyThrows;
 import org.springframework.stereotype.Service;
 import pl.kurs.mmiaso.address.model.Address;
 import pl.kurs.mmiaso.address.model.command.CreateAddressCommand;
@@ -12,7 +10,6 @@ import pl.kurs.mmiaso.car.CarRepository;
 import pl.kurs.mmiaso.car.exceptions.GarageIsFullWithCarsException;
 import pl.kurs.mmiaso.car.exceptions.GarageNotHandleLpgException;
 import pl.kurs.mmiaso.car.exceptions.GaragePlaceIsTooNarrowException;
-import pl.kurs.mmiaso.car.exceptions.MaxOptimisticTriesExceededException;
 import pl.kurs.mmiaso.car.model.Car;
 import pl.kurs.mmiaso.car.model.dto.CarDto;
 import pl.kurs.mmiaso.fuel.FuelRepository;
@@ -73,6 +70,7 @@ public class GarageService {
                 .toList();
     }
 
+    @Transactional
     public void save(CreateGarageCommand garageCommand, CreateAddressCommand addressCommand) {
         Garage garage = CreateGarageCommand.commandToEntity(garageCommand);
         Address address = CreateAddressCommand.commandToEntity(addressCommand);
@@ -101,10 +99,10 @@ public class GarageService {
     }
 
     private void validateCarGarageConstrains(Garage garage, Car car) {
-        int maxPlaces = garage.getCapacity();
+        int capacity = garage.getCapacity();
         int takenPlaces = garageRepository.findGarageCarsAmountById(garage.getId());
 
-        if (takenPlaces == maxPlaces) {
+        if (capacity <= takenPlaces) {
             throw new GarageIsFullWithCarsException("This garage is full!");
         }
 
@@ -116,4 +114,5 @@ public class GarageService {
             throw new GaragePlaceIsTooNarrowException("Garage place is too narrow for your car!");
         }
     }
+
 }

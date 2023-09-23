@@ -14,6 +14,7 @@ public class CarDto {
     private double width;
     private BigDecimal price;
     private String fuelName;
+    private String garageName;
 
     public static CarDto entityToDtoWithFuel(Car car) {
         return CarDto.builder()
@@ -25,6 +26,20 @@ public class CarDto {
                 .build();
     }
 
+    public static CarDto entityToDtoWithFuelAndGarage(Car car) {
+        if (car.getGarage() != null) {
+            return CarDto.builder()
+                    .id(car.getId())
+                    .brand(car.getBrand())
+                    .width(car.getWidth())
+                    .price(car.getPrice())
+                    .fuelName(car.getFuel().getName())
+                    .garageName(car.getGarage().getAddress().getName())
+                    .build();
+        }
+        return entityToDtoWithFuel(car);
+    }
+
     public static CarDto entityToFlatDto(Car car) {
         return CarDto.builder()
                 .id(car.getId())
@@ -33,4 +48,5 @@ public class CarDto {
                 .price(car.getPrice())
                 .build();
     }
+
 }

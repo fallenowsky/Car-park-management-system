@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import pl.kurs.mmiaso.address.model.command.CreateAddressCommand;
-import pl.kurs.mmiaso.car.exceptions.MaxOptimisticTriesExceededException;
 import pl.kurs.mmiaso.garage.model.command.CreateGarageCommand;
 
 @Controller
@@ -37,7 +36,7 @@ public class GarageController {
         return "redirect:/garages";
     }
 
-    @GetMapping("/add-car")
+    @PostMapping("/add-car")
     public String assignCar(@RequestParam("carId") long carId,
                             @RequestParam("garageId") long garageId) {
         try {
@@ -47,4 +46,5 @@ public class GarageController {
             return "error/429";
         }
     }
+
 }

@@ -11,7 +11,9 @@ const sendForm = () => {
             const garageId = parseFloat(document.getElementById("garageId").value);
             const carId = parseFloat(document.getElementById("carId").value);
 
-            fetch(`/garages/add-car?garageId=${garageId}&carId=${carId}`)
+            fetch(`/garages/add-car?garageId=${garageId}&carId=${carId}`, {
+                method: "POST"
+            })
                 .then(res => {
                     if (!res.ok) {
                         return res.json();

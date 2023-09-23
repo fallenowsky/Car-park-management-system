@@ -34,16 +34,9 @@ public class CarController {
     }
 
     @GetMapping("/by-garage-id")
-    public ResponseEntity<List<CarDto>> getAllByGarageId(@RequestParam("garageId") long garageId) {
-        List<CarDto> cars = carService.findCarsByGarageId(garageId);
-        return ResponseEntity.ok(cars);
-    }
-
-    @PostMapping("/add")
-    public String save(@Valid @RequestBody CreateCarCommand command,
-                       @RequestParam("fuelId") long fuelId) {
-        carService.save(command, fuelId);
-        return "redirect:/cars";
+    @ResponseBody
+    public List<CarDto> getAllByGarageId(@RequestParam("garageId") long garageId) {
+        return carService.findCarsByGarageId(garageId);
     }
 
     @GetMapping("/add-car")
@@ -53,18 +46,11 @@ public class CarController {
         return "car/assignCar";
     }
 
+    @PostMapping("/add")
+    public String save(@Valid @RequestBody CreateCarCommand command,
+                       @RequestParam("fuelId") long fuelId) {
+        carService.save(command, fuelId);
+        return "redirect:/cars";
+    }
 
-//    @PostMapping("/create")
-//    public String save(
-//            @Valid @RequestBody CreateCarCommand command,
-//            @RequestParam("garageId") long garageId,
-//            @RequestParam("fuelId") long fuelId) {
-//
-//        try {
-//            carService.save(command, garageId, fuelId);
-//            return "redirect:/garages";
-//        } catch (MaxOptimisticTriesExceededException e) {
-//            return "error/429";
-//        }
-//    }
 }

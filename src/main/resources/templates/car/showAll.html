@@ -25,7 +25,7 @@
         <th>Width:</th>
         <th>Fuel type:</th>
         <th>Price:</th>
-<!--                <th>Garage:</th>-->
+                <th>Garage:</th>
     </tr>
     </thead>
     <tbody>
@@ -35,10 +35,10 @@
         <td class="data" th:text="${car.width}"></td>
         <td class="data" th:text="${car.fuelName}"></td>
         <td class="data" th:text="${#numbers.formatDecimal(car.price,2,2)}"></td>
-        <!--        <td class="data" th:text="${car.garageName != null ? cat.garageName : 'Not assigned'}"></td>-->
+                <td class="data" th:text="${car.garageName != null ? car.garageName : 'Not assigned'}"></td>
         <td>
             <button class="add-to-garage-btn" th:data-id="${car.id}"
-                    th:text="${'ADD TO GARAGE'}"></button>
+                    th:text="${car.garageName != null? 'CHANGE GARAGE' : 'ADD TO GARAGE'}"></button>
         </td>
     </tr>
     </tbody>
