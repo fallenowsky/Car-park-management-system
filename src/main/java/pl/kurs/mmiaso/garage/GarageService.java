@@ -81,11 +81,11 @@ public class GarageService {
 
     @Transactional
     public void assignCar(long garageId, long carId) {
-        Garage garage = garageRepository.findWithLockingById(garageId) // do pilnowania capacity
+        Garage garage = garageRepository.findWithLockingById(garageId)
                 .orElseThrow(() -> new EntityNotFoundException(
                         MessageFormat.format("Garage with id={0} not found", garageId)));
 
-        Car car = carRepository.findByIdWithFuelJoin(carId)      // gdyby ktos w miedzy czasie usunal to auto
+        Car car = carRepository.findByIdWithFuelJoin(carId)
                 .orElseThrow(() -> new EntityNotFoundException(
                         MessageFormat.format("Car with id={0} not found", carId)));
 
