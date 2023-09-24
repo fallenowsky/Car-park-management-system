@@ -40,7 +40,7 @@ class FuelServiceTest {
     }
 
     @Test
-    public void testFindAll_FuelsFound_ResultsInFuelRepositoryList() {
+    public void testFindAll_FuelsFound_ResultsInFuelRepositoryListReturned() {
         List<Fuel> fuels = Arrays.asList(fuel, fuel2);
         when(fuelRepository.findAll()).thenReturn(fuels);
 
@@ -52,7 +52,7 @@ class FuelServiceTest {
     }
 
     @Test
-    public void testFindAll_FuelsNotFound_ResultsInEmptyReturnedFuelList() {
+    public void testFindAll_FuelsNotFound_ResultsInEmptyReturnedFuelListReturned() {
         List<FuelDto> returned = service.findAll();
 
         assertEquals(Collections.emptyList(), returned);
