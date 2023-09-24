@@ -1,86 +1,54 @@
 package pl.kurs.mmiaso.car;
 
 import jakarta.persistence.EntityNotFoundException;
-import jakarta.persistence.OptimisticLockException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import pl.kurs.mmiaso.car.exceptions.GarageIsFullWithCarsException;
-import pl.kurs.mmiaso.car.exceptions.GarageNotHandleLpgException;
-import pl.kurs.mmiaso.car.exceptions.GaragePlaceIsTooNarrowException;
-import pl.kurs.mmiaso.car.exceptions.MaxOptimisticTriesExceededException;
 import pl.kurs.mmiaso.car.model.Car;
 import pl.kurs.mmiaso.car.model.command.CreateCarCommand;
 import pl.kurs.mmiaso.car.model.dto.CarDto;
 import pl.kurs.mmiaso.fuel.FuelRepository;
 import pl.kurs.mmiaso.fuel.model.Fuel;
-import pl.kurs.mmiaso.garage.GarageRepository;
-import pl.kurs.mmiaso.garage.model.Garage;
 
 import java.text.MessageFormat;
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 public class CarService {
     private final CarRepository carRepository;
-    private final GarageRepository garageRepository;
     private final FuelRepository fuelRepository;
 
 
-    @Transactional
-    public void save(CreateCarCommand command, long garageId, long fuelId) {
-        Car car = CreateCarCommand.commandToEntity(command);
-        int tries = 2;
-
-        while (tries >= 0) {
-            Garage garage = garageRepository.findWithLockingById(garageId)
-                    .orElseThrow(() -> new EntityNotFoundException(
-                            MessageFormat.format("Garage with id={0} not found", garageId)));
-
-            Fuel fuel = fuelRepository.findById(fuelId)
-                    .orElseThrow(() -> new EntityNotFoundException(
-                            MessageFormat.format("Fuel with id={0} not found", fuelId)));
-
-            car.setFuel(fuel);
-            validateCarGarageConstrains(garage, car);
-            car.setGarage(garage);
-
-            try {
-                carRepository.save(car);
-                return;
-            } catch (OptimisticLockException e) {
-                tries--;
-            }
-        }
-        throw new MaxOptimisticTriesExceededException("Exceeded max tries to save a car!");
+    public List<CarDto> findAllWithFuelJoin() {
+        return carRepository.findAllWithFuelJoinAndGarageAddressJoin().stream()
+                .map(CarDto::entityToDtoWithFuelAndGarage)
+                .toList();
     }
 
-    private void validateCarGarageConstrains(Garage garage, Car car) {
-        int maxPlaces = garage.getCapacity();
-        int takenPlaces = garageRepository.findGarageCarsAmountById(garage.getId());
+    public CarDto findByIdWIthFuelJoin(long carId) {
+        Car car = carRepository.findByIdWithFuelJoin(carId)
+                .orElseThrow(() -> new EntityNotFoundException(
+                        MessageFormat.format("Car with id={0} not found", carId)));
 
-        if (takenPlaces == maxPlaces) {
-            throw new GarageIsFullWithCarsException("This garage is full!");
-        }
+        return CarDto.entityToDtoWithFuel(car);
+    }
 
-        if (car.getFuel().getName().equalsIgnoreCase("LPG") && !garage.isLpgAllowed()) {
-            throw new GarageNotHandleLpgException("In this garage lpg is not allowed!");
-        }
+    @Transactional
+    public void save(CreateCarCommand command, long fuelId) {
+        Car car = CreateCarCommand.commandToEntity(command);
 
-        if (car.getWidth() > garage.getPlaceWidth()) {
-            throw new GaragePlaceIsTooNarrowException("Garage place is too narrow for your car!");
-        }
+        Fuel fuel = fuelRepository.findById(fuelId)
+                .orElseThrow(() -> new EntityNotFoundException(
+                        MessageFormat.format("Fuel with id={0] not found", fuelId)));
+        car.setFuel(fuel);
+        carRepository.save(car);
     }
 
     public List<CarDto> findCarsByGarageId(long garageId) {
-        List<Car> cars = carRepository.findAllByGarageIdWithFuelJoin(garageId);
-        List<CarDto> carsDto = new ArrayList<>();
-
-        for (Car car : cars) {
-            carsDto.add(CarDto.entityToDtoWithFuel(car));
-        }
-        return carsDto;
+        return carRepository.findAllByGarageIdWithFuelJoin(garageId).stream()
+                .map(CarDto::entityToDtoWithFuel)
+                .toList();
     }
+
 }

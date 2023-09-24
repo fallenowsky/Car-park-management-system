@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import pl.kurs.mmiaso.address.model.dto.AddressDto;
 
 @Controller
@@ -15,8 +16,9 @@ public class AddressController {
     private final AddressService addressService;
 
     @GetMapping("/get")
-    public ResponseEntity<AddressDto> getByGarageId(@RequestParam("garageId") long garageId) {
-        AddressDto address = addressService.findByGarageId(garageId);
-        return ResponseEntity.ok(address);
+    @ResponseBody
+    public AddressDto getByGarageId(@RequestParam("garageId") long garageId) {
+        return addressService.findByGarageId(garageId);
     }
+
 }

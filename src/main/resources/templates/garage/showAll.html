@@ -16,10 +16,10 @@
 <script src="/garages/showAll.js"></script>
 <body>
 <h3>List of garages:</h3>
-
+<h5 th:if="${garages.isEmpty()}" th:text="${'Garages lsit is empty'}"></h5>
 <table>
     <thead>
-    <tr>
+    <tr th:if="${!garages.isEmpty()}">
         <th>No.</th>
         <th>Capacity[places]:</th>
         <th>Lpg allowed:</th>
@@ -43,11 +43,8 @@
             th:text="${garage.mostExpensiveCar.brand == null? 'Empty garage' :
             garage.mostExpensiveCar.brand + ', ' + garage.mostExpensiveCar.price}"></td>
         <td class="data" th:text="${garage.avgCarsAmount != null ?
-         #numbers.formatDecimal(garage.avgCarsAmount,2,2) : '0.0'}"></td>
-        <td class="data" th:text="${#numbers.formatDecimal(garage.fillFactor,1,1)}"></td>
-        <td>
-            <button class="add-car-btn" th:data-id="${garage.id}">ADD CAR</button>
-        </td>
+         #numbers.formatDecimal(garage.avgCarsAmount,1,2) : '0.0'}"></td>
+        <td class="data" th:text="${#numbers.formatDecimal(garage.fillFactor,1,2)}"></td>
         <td class="data">
             <button class="show-cars-btn" th:data-id="${garage.id}">SHOW CARS</button>
         </td>
@@ -59,7 +56,9 @@
 <button class="add-garage-btn">ADD GARAGE</button>
 <br> <br>
 <ul class="redirections">
-    <li><a th:href="@{/}">Home page</a></li>
+    <li><a th:href="@{/}">HOME PAGE</a></li>
+    <li><a th:href="@{/cars}">CARS</a></li>
+    <li><a th:href="@{/fuels}">FUELS</a></li>
 </ul>
 </body>
 </html>

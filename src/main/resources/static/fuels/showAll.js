@@ -7,8 +7,4 @@ const add = () => {
         .addEventListener("click", () => {
             window.location.replace("/fuels/create")
         })
-    document.querySelector(".btn-bck")
-        .addEventListener("click", () => {
-            window.location.replace("/fuels");
-        })
 }
