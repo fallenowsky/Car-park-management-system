@@ -79,7 +79,7 @@ class CarServiceTest {
         List<CarDto> expectedDtos = Arrays.asList(carDto, car2Dto);
         when(carRepository.findAllWithFuelJoinAndGarageAddressJoin()).thenReturn(cars);
 
-        List<CarDto> returned = service.findAllWithFuelJoin();
+        List<CarDto> returned = service.findAllWithFuelAndGarageAddressJoin();
 
         assertEquals(expectedDtos, returned);
         verify(carRepository).findAllWithFuelJoinAndGarageAddressJoin();
@@ -103,7 +103,7 @@ class CarServiceTest {
         List<CarDto> expectedDtos = Arrays.asList(carDto, car2Dto);
         when(carRepository.findAllWithFuelJoinAndGarageAddressJoin()).thenReturn(cars);
 
-        List<CarDto> returned = service.findAllWithFuelJoin();
+        List<CarDto> returned = service.findAllWithFuelAndGarageAddressJoin();
 
         assertEquals(expectedDtos, returned);
         verify(carRepository).findAllWithFuelJoinAndGarageAddressJoin();
@@ -120,7 +120,7 @@ class CarServiceTest {
         List<CarDto> expectedDtos = Arrays.asList(carDto, car2Dto);
         when(carRepository.findAllWithFuelJoinAndGarageAddressJoin()).thenReturn(cars);
 
-        List<CarDto> returned = service.findAllWithFuelJoin();
+        List<CarDto> returned = service.findAllWithFuelAndGarageAddressJoin();
 
         assertEquals(expectedDtos, returned);
         verify(carRepository).findAllWithFuelJoinAndGarageAddressJoin();

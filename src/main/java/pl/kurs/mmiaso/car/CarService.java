@@ -20,7 +20,7 @@ public class CarService {
     private final FuelRepository fuelRepository;
 
 
-    public List<CarDto> findAllWithFuelJoin() {
+    public List<CarDto> findAllWithFuelAndGarageAddressJoin() {
         return carRepository.findAllWithFuelJoinAndGarageAddressJoin().stream()
                 .map(CarDto::entityToDtoWithFuelAndGarage)
                 .toList();

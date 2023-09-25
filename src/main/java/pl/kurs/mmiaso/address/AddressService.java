@@ -19,4 +19,5 @@ public class AddressService {
                         MessageFormat.format("Address with garage id={0} not found", garageId)));
         return AddressDto.entityToDto(address);
     }
+
 }

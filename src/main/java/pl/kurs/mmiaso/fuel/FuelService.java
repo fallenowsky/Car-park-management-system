@@ -5,12 +5,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import pl.kurs.mmiaso.fuel.exceptions.ThisFuelAlreadyExists;
 import pl.kurs.mmiaso.fuel.model.Fuel;
-import pl.kurs.mmiaso.fuel.model.dto.FuelDto;
 import pl.kurs.mmiaso.fuel.model.command.CreateFuelCommand;
+import pl.kurs.mmiaso.fuel.model.dto.FuelDto;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
 
 /* podczas startu aplikacji dodaje kilka defaultowych paliw jakie apka obsluguje
  *  wychodze jednak z zalozenia, że moze powstac jakies nowe paliwo lub moge chciec obslugiwac diesla
@@ -23,7 +22,6 @@ public class FuelService {
 
     public List<FuelDto> findAll() {
         return fuelRepository.findAll().stream()
-                .filter(Objects::nonNull)
                 .map(FuelDto::entityToDto)
                 .toList();
     }

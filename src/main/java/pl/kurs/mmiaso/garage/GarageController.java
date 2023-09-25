@@ -29,9 +29,9 @@ public class GarageController {
         return "garage/create";
     }
 
-    @PostMapping("/create")
-    public String create(@Valid CreateGarageCommand garageCommand,
-                         @Valid CreateAddressCommand addressCommand) {
+    @PostMapping("/add")
+    public String save(@Valid CreateGarageCommand garageCommand,
+                       @Valid CreateAddressCommand addressCommand) {
         garageService.save(garageCommand, addressCommand);
         return "redirect:/garages";
     }

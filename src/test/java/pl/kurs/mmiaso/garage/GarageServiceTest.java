@@ -117,7 +117,7 @@ class GarageServiceTest {
 
 
     @Test
-    public void testFindAll_GaragesNotFound_ResultsInEmptyListReturnedAndNoLoopRepeats() {
+    public void testFindAllWithAddressJoin_GaragesNotFound_ResultsInEmptyListReturnedAndNoLoopRepeats() {
         List<GarageDto> returned = service.findAllWithDetails();
 
         assertEquals(Collections.emptyList(), returned);
@@ -127,7 +127,7 @@ class GarageServiceTest {
     }
 
     @Test
-    public void testFindAll_GaragesFound_ResultsInGaragesRepoListReturnedAndMockMethodCall() {
+    public void testFindAllWithAddressJoin_GaragesFound_ResultsInGaragesRepoListReturnedAndMockMethodCall() {
         Address address = Address.builder()
                 .name("fallenowsky")
                 .street("Zlota")
@@ -143,7 +143,7 @@ class GarageServiceTest {
         List<GarageDto> expectedGaragesDtos = Arrays.asList(garageDto, garage2Dto);
         when(garageRepository.findALlWithAddressJoin()).thenReturn(garages);
 
-        List<GarageDto> returned = service.findAll();
+        List<GarageDto> returned = service.findAllWithAddressJoin();
 
         assertEquals(expectedGaragesDtos, returned);
         verify(garageRepository).findALlWithAddressJoin();
@@ -151,14 +151,13 @@ class GarageServiceTest {
     }
 
     @Test
-    public void testFindAll_GaragesNotFound_ResultsInEmptyListReturnedAndMockMethodCall() {
-        List<GarageDto> returned = service.findAll();
+    public void testFindAllWithAddressJoin_GaragesNotFound_ResultsInEmptyListReturnedAndMockMethodCall() {
+        List<GarageDto> returned = service.findAllWithAddressJoin();
 
         assertEquals(Collections.emptyList(), returned);
         verify(garageRepository).findALlWithAddressJoin();
         verifyNoMoreInteractions(garageRepository);
     }
-
 
     @Test
     public void testSave_MethodInputsCorrect_ResultsInMockMethodCallAndGarageCapture() {
@@ -185,7 +184,6 @@ class GarageServiceTest {
         assertEquals(garage.isLpgAllowed(), garageCaptured.isLpgAllowed());
         verifyNoMoreInteractions(garageRepository);
     }
-
 
     @Test
     public void testAssignCar_MethodInputsCorrect_ResultsInMockMethodCallAndCarCapture() {
