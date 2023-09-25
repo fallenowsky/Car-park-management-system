@@ -1,7 +1,6 @@
 package pl.kurs.mmiaso.address;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,7 +16,7 @@ public class AddressController {
 
     @GetMapping("/get")
     @ResponseBody
-    public AddressDto getByGarageId(@RequestParam("garageId") long garageId) {
+    public AddressDto findByGarageId(@RequestParam("garageId") long garageId) {
         return addressService.findByGarageId(garageId);
     }
 

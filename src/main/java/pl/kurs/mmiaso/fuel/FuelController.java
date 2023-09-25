@@ -13,7 +13,6 @@ import pl.kurs.mmiaso.fuel.model.command.CreateFuelCommand;
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/fuels")
-
 public class FuelController {
     private final FuelService fuelService;
 

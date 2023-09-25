@@ -11,7 +11,7 @@
 <script src="/garages/create.js"></script>
 <h2>Add a new garage:</h2>
 
-<form th:action="@{/garages/create}" method="post">
+<form th:action="@{/garages/add}" method="post">
     <div>
         <label for="capacity">Garage capacity(available places):</label>
         <input type="number" id="capacity" name="capacity" placeholder="capacity" min="1" step="1" max="1000" value="5"

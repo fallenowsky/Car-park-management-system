@@ -1,8 +1,11 @@
 package pl.kurs.mmiaso.garage;
 
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.persistence.OptimisticLockException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.retry.annotation.Backoff;
+import org.springframework.retry.annotation.Retryable;
 import org.springframework.stereotype.Service;
 import pl.kurs.mmiaso.address.model.Address;
 import pl.kurs.mmiaso.address.model.command.CreateAddressCommand;
@@ -64,7 +67,7 @@ public class GarageService {
         return CarDto.entityToFlatDto(car);
     }
 
-    public List<GarageDto> findAll() {
+    public List<GarageDto> findAllWithAddressJoin() {
         return garageRepository.findALlWithAddressJoin().stream()
                 .map(GarageDto::entityToDto)
                 .toList();
@@ -80,6 +83,10 @@ public class GarageService {
     }
 
     @Transactional
+    @Retryable(
+            retryFor = OptimisticLockException.class,
+            maxAttempts = 2,
+            backoff = @Backoff(800))
     public void assignCar(long garageId, long carId) {
         Garage garage = garageRepository.findWithLockingById(garageId)
                 .orElseThrow(() -> new EntityNotFoundException(
@@ -92,9 +99,10 @@ public class GarageService {
         validateCarGarageConstrains(garage, car);
         car.setGarage(garage);
 
-        // tu leci  wyjatek OptimisticLockException gdy version obiektu i w bd sie nie zgadzaja
+        // tu powinien wystapic wyjatek OptimisticLockException gdy version obiektu i w bd sie nie zgadzaja podczas proby zapisuj encji
         // OptimisticLockException jest typu unchecked wiec jest rollback transakcji
-        // lapie go w kontrolerze i renderuje 429. jesli nie ma to commit, czyli version sa takie same
+        // dodalem andotacja retryable, ktora podejmie 2 proby przypisania auta
+        // przy kazdej probie transakcja otworzy sie na nowo
         garageRepository.save(garage);
     }
 

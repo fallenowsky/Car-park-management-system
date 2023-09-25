@@ -20,7 +20,7 @@ public class CarService {
     private final FuelRepository fuelRepository;
 
 
-    public List<CarDto> findAllWithFuelJoin() {
+    public List<CarDto> findAllWithFuelAndGarageAddressJoin() {
         return carRepository.findAllWithFuelJoinAndGarageAddressJoin().stream()
                 .map(CarDto::entityToDtoWithFuelAndGarage)
                 .toList();
@@ -40,7 +40,7 @@ public class CarService {
 
         Fuel fuel = fuelRepository.findById(fuelId)
                 .orElseThrow(() -> new EntityNotFoundException(
-                        MessageFormat.format("Fuel with id={0] not found", fuelId)));
+                        MessageFormat.format("Fuel with id={0} not found", fuelId)));
         car.setFuel(fuel);
         carRepository.save(car);
     }

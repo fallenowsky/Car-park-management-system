@@ -25,8 +25,8 @@ public class GarageDto {
 
     public static GarageDto entityToDto(Garage garage) {
         AddressDto addressDto = AddressDto.entityToDto(garage.getAddress());
-        return GarageDto.
-                builder()
+        return GarageDto
+                .builder()
                 .id(garage.getId())
                 .capacity(garage.getCapacity())
                 .isLpgAllowed(garage.isLpgAllowed())
