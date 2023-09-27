@@ -9,5 +9,5 @@ I avoid n + 1 and lazy loading enitities loading problem.
 I secure databse from parallel record loading and implement Optimistic Locking to protect it.
 I use transactions i JPA and relationa between entities.
 
-![image](https://github.com/fallenowsky/Car-park-management-system/assets/106607529/8f9dc8c5-fecc-4166-b78a-eff9db2da914)
+![image](https://github.com/fallenowsky/Car-park-management-system/assets/106607529/6e6e0005-36c5-4fdf-be93-950399ddbe99)
 
