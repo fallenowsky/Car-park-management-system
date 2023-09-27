@@ -10,3 +10,4 @@ I secure databse from parallel record loading and implement Optimistic Locking t
 I use transactions i JPA and relationa between entities.
 
 ![image](https://github.com/fallenowsky/Car-park-management-system/assets/106607529/6e6e0005-36c5-4fdf-be93-950399ddbe99)
+
